@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
-
+// Changed type of resume from file to string
 const blacklistSchema = new Schema(
   {
     reason: {
@@ -77,21 +77,22 @@ const developerSchema = new Schema(
     },
     reference: {
       type: String
-    },
-    contactInfo: [
-      {
-        email: {
-          type: String,
-          required: true
-        },
-        phone: {
-          type: String,
-          required: true
-        }
-      }
-    ],
+    // },
+    // contactInfo: [
+    //   {
+    //     email: {
+    //       type: String,
+    //       required: true
+    //     },
+    //     phone: {
+    //       type: String,
+    //       required: true
+    //     }
+    //   }
+    // ]
+    ,
     resume: {
-      type: File,
+      type: String,
       required: true
     },
     linkedIn: {

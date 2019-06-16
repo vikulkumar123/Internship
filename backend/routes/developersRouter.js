@@ -1,14 +1,15 @@
 const express = require("express");
 const bodyPerser = require("body-parser");
 const Developers = require("../models/developers");
-const Blacklist = require("../models/blacklist");
 const developerRouter = express.Router();
 developerRouter.use(bodyPerser.json());
 
 developerRouter
   .route("/")
   .get((req, res, next) => {
-    Developers.find({})
+    console.log(req.query);
+    req.query.isblacklisted = false;
+    Developers.find(req.query)
       .then(
         developers => {
           res.statusCode = 200;
@@ -43,6 +44,23 @@ developerRouter.post("/register", (req, res, next) => {
         res.statusCode = 200;
         res.setHeader("Content-Type", "application/json");
         res.json(dish);
+      },
+      err => {
+        next(err);
+      }
+    )
+    .catch(err => {
+      next(err);
+    });
+});
+
+developerRouter.route("/blacklist").get((req, res, next) => {
+  Developers.find({ isblacklisted: true })
+    .then(
+      list => {
+        res.statusCode = 200;
+        res.setHeader("Content-Type", "application/json");
+        res.json(list);
       },
       err => {
         next(err);
@@ -105,20 +123,4 @@ developerRouter
       );
   });
 
-developerRouter.route("/blacklist").get((req, res, next) => {
-  Blacklist.find({ isBlacklist: true })
-    .then(
-      list => {
-        res.statusCode = 200;
-        res.setHeader("Content-Type", "application/json");
-        res.json(list);
-      },
-      err => {
-        next(err);
-      }
-    )
-    .catch(err => {
-      next(err);
-    });
-});
 module.exports = developerRouter;

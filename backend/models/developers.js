@@ -64,7 +64,6 @@ const developerSchema = new Schema(
       type: String,
       required: true
     },
-
     resume: {
       type: String,
       required: true
@@ -77,6 +76,22 @@ const developerSchema = new Schema(
       type: String,
       default: ""
     },
+    isblacklisted: {
+      type: Boolean,
+      default: false
+    },
+    blacklistReason: {
+      type: String,
+      default: "",
+      maxlength: 100
+    },
+
+    blacklistNotes: {
+      type: String,
+      default: "",
+      maxlength: 100
+    },
+
     archive: {
       type: Boolean,
       default: false

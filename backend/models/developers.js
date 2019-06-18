@@ -82,8 +82,8 @@ const developerSchema = new Schema(
     },
     blacklistReason: {
       type: String,
-      default: "",
-      maxlength: 100
+      possibleValues: ["reason 1", "reason 2", "reason 3", "reason 4"],
+      required: true
     },
 
     blacklistNotes: {

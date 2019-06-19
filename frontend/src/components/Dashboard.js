@@ -13,8 +13,8 @@ class Dashboard extends Component {
     return (
       <React.Fragment>
         <Navigation />
-        <div className="row searchDiv">
-          <div className="col-md-8 offset-md-3">
+        <div className="row ">
+          <div className="col-md-8 offset-md-3 searchDiv">
             <div className="search-form">
               <form>
                 <FontAwesomeIcon icon={faSearch} className="formSearchIcon" />
@@ -29,17 +29,17 @@ class Dashboard extends Component {
                     textAlign: "left",
                     marginLeft: "10px",
                     marginBottom: "10px",
-                    color: "rgb(110,110,110)"
+                    color: "rgba(150,150,150, 0.6 )"
                   }}
                 >
                   Enter keywords like: skills, Name, Category to search
-                  developers{" "}
+                  developers
                 </p>
               </form>
             </div>
           </div>
         </div>
-        <div className="container">
+        <div className="contDiv">
           <Card />
         </div>
       </React.Fragment>

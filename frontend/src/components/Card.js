@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import "../style/card.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 class Card extends Component {
   constructor(props) {
     super(props);
@@ -19,7 +22,10 @@ class Card extends Component {
                 />
               </div>
               <div className="card-title mb-2">
-                <span>Shubham Singh</span>
+                <span className="mr-2">Shubham Singh</span>
+                <Link to="/edit">
+                  <FontAwesomeIcon icon={faEdit} />
+                </Link>
               </div>
               <div
                 className="card-subtitle mb-2 text-primary"
@@ -57,7 +63,10 @@ class Card extends Component {
                 />
               </div>
               <div className="card-title mb-2">
-                <span>Shubham Singh</span>
+                <span className="mr-2">Shubham Singh</span>
+                <Link to="/edit">
+                  <FontAwesomeIcon icon={faEdit} />
+                </Link>
               </div>
               <div
                 className="card-subtitle mb-2 text-primary"
@@ -95,7 +104,10 @@ class Card extends Component {
                 />
               </div>
               <div className="card-title mb-2">
-                <span>Shubham Singh</span>
+                <span className="mr-2">Shubham Singh</span>
+                <Link to="/edit">
+                  <FontAwesomeIcon icon={faEdit} />
+                </Link>
               </div>
               <div
                 className="card-subtitle mb-2 text-primary"
@@ -133,7 +145,10 @@ class Card extends Component {
                 />
               </div>
               <div className="card-title mb-2">
-                <span>Shubham Singh</span>
+                <span className="mr-2">Shubham Singh</span>
+                <Link to="/edit">
+                  <FontAwesomeIcon icon={faEdit} />
+                </Link>
               </div>
               <div
                 className="card-subtitle mb-2 text-primary"
@@ -171,7 +186,10 @@ class Card extends Component {
                 />
               </div>
               <div className="card-title mb-2">
-                <span>Shubham Singh</span>
+                <span className="mr-2">Shubham Singh</span>
+                <Link to="/edit">
+                  <FontAwesomeIcon icon={faEdit} />
+                </Link>
               </div>
               <div
                 className="card-subtitle mb-2 text-primary"
@@ -209,7 +227,10 @@ class Card extends Component {
                 />
               </div>
               <div className="card-title mb-2">
-                <span>Shubham Singh</span>
+                <span className="mr-2">Shubham Singh</span>
+                <Link to="/edit">
+                  <FontAwesomeIcon icon={faEdit} />
+                </Link>
               </div>
               <div
                 className="card-subtitle mb-2 text-primary"
@@ -247,7 +268,10 @@ class Card extends Component {
                 />
               </div>
               <div className="card-title mb-2">
-                <span>Shubham Singh</span>
+                <span className="mr-2">Shubham Singh</span>
+                <Link to="/edit">
+                  <FontAwesomeIcon icon={faEdit} />
+                </Link>
               </div>
               <div
                 className="card-subtitle mb-2 text-primary"
@@ -285,7 +309,10 @@ class Card extends Component {
                 />
               </div>
               <div className="card-title mb-2">
-                <span>Shubham Singh</span>
+                <span className="mr-2">Shubham Singh</span>
+                <Link to="/edit">
+                  <FontAwesomeIcon icon={faEdit} />
+                </Link>
               </div>
               <div
                 className="card-subtitle mb-2 text-primary"

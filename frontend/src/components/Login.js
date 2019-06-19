@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import image from "../images/undraw_online_discussion_5wgl.svg";
 import "../style/login.css";
-import NavBar from "./authNavbar";
+import NavBar from "./AuthNavbar";
 class Login extends Component {
   state = {};
   render() {

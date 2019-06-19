@@ -1,13 +1,9 @@
-.search-form {
-  flex: 1 1 100%;
-  box-sizing: border-box;
-  max-width: 70%;
-}
-
 form {
-  position: relative;
-  width: 100%;
+  position: fixed;
+  width: 35%;
   height: 40px;
+
+  text-align: center;
   white-space: nowrap;
 }
 .searchBar {
@@ -30,9 +26,7 @@ form {
   width: 24px;
   height: 24px;
 }
-.searchRightAlign {
-  margin-left: 19vw !important;
-}
+
 form .formSearchIcon {
   position: absolute;
   top: 9px;
@@ -43,9 +37,17 @@ form .formSearchIcon {
   color: rgb(177, 182, 185);
 }
 .searchDiv {
-  padding-top: 120px;
+  margin-top: 20vh;
+  margin-left: 30vw;
   display: block;
+  position: fixed;
+  z-index: 100;
 }
-.container {
-  margin-top: 9vh !important;
+.contDiv {
+  margin-top: 35vh !important;
+  width: 100%;
+  padding: 0 10vw;
+  position: relative;
+  margin-right: auto;
+  margin-left: auto;
 }

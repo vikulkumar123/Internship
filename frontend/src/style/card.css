@@ -1,0 +1,58 @@
+.profile_image {
+  display: inline-block;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  border: 2px solid rgb(112, 112, 112);
+  background-color: rgb(232, 232, 232);
+}
+.card {
+  border: none;
+  box-shadow: 0 8px 10px -5px rgba(0, 0, 0, 0.2),
+    0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12);
+  width: 15.7rem;
+}
+
+.card-body {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.card-title {
+  margin-top: 10px;
+}
+
+a {
+  color: rgb(113, 112, 112);
+  text-decoration: none;
+}
+a:hover {
+  color: rgb(113, 112, 112);
+  text-decoration: none;
+  color: blueviolet;
+  font-size: 16px;
+}
+.actionButton {
+  width: 100%;
+  color: rgb(154, 154, 154);
+  font: 400 12px/20px Roboto, "Helvetica Neue", sans-serif;
+  letter-spacing: 0.3157px;
+  border-radius: 5px;
+  text-decoration: none !important;
+}
+
+.cardFooter {
+  border-top: 1px solid rgb(222, 222, 222);
+  text-align: center;
+}
+
+.seperater {
+  border-left: 1px solid rgb(222, 222, 222);
+  padding: 0px !important;
+}
+.archiveButton {
+  padding: 12px 10px !important;
+}
+.blacklistButton {
+  padding: 12px 0;
+}

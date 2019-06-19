@@ -1,0 +1,46 @@
+@import url("https://fonts.googleapis.com/css?family=Lato&display=swap");
+.navDiv {
+  font-family: "Lato", sans-serif;
+  outline: none;
+  letter-spacing: 0.3175px;
+  z-index: 100;
+  color: white !important;
+  top: 0;
+  background-color: rgb(89, 78, 255);
+}
+
+.navbarBrand {
+  color: white;
+  font-size: 4vmin !important;
+  text-align: center;
+  text-shadow: 2px 2px 4px #000000;
+}
+.navbarBrand:hover {
+  color: white;
+}
+
+.nav-link {
+  font-size: 20px;
+  color: #fff;
+}
+.nav-link:hover {
+  color: #fff;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .navbarBrand {
+    font-size: 4vmin !important;
+  }
+  .navbarBrand:hover {
+    font-size: 4.1vmin !important;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  .navbarBrand {
+    font-size: 4vmin !important;
+  }
+  .navbarBrand:hover {
+    font-size: 4.1vmin !important;
+  }
+}

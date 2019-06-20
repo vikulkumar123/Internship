@@ -6,7 +6,8 @@ developerRouter.use(bodyPerser.json());
 var authenticate = require("../authenticate");
 
 developerRouter
-  .get("/", authenticate.verifyAdmin, (req, res, next) => {
+  .route("/")
+  .get(authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
     console.log(req.query);
     req.query.isblacklisted = false;
     Developers.find(req.query)
@@ -24,21 +25,26 @@ developerRouter
         next(err);
       });
   })
-  .post(authenticate.verifyAdmin, (req, res, next) => {
+  .post(authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
     res.statusCode = 403;
     res.end("POST operation not supported on / route");
   })
-  .put(authenticate.verifyAdmin, (req, res, next) => {
+  .put(authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
     res.statusCode = 403;
     res.end("PUT operation not supported on / route");
   })
-  .delete(authenticate.verifyAdmin, (req, res, next) => {
-    res.statusCode = 403;
-    res.end("DELETE operation not supported on / route");
-  });
+  .delete(
+    authenticate.verifyUser,
+    authenticate.verifyAdmin,
+    (req, res, next) => {
+      res.statusCode = 403;
+      res.end("DELETE operation not supported on / route");
+    }
+  );
 
 developerRouter.post(
   "/register",
+  authenticate.verifyUser,
   authenticate.verifyAdmin,
   (req, res, next) => {
     Developers.create(req.body)
@@ -60,6 +66,7 @@ developerRouter.post(
 
 developerRouter.get(
   "/blacklist",
+  authenticate.verifyUser,
   authenticate.verifyAdmin,
   (req, res, next) => {
     Developers.find({ isblacklisted: true })
@@ -80,7 +87,8 @@ developerRouter.get(
 );
 
 developerRouter
-  .get("/:developerId", authenticate.verifyAdmin, (req, res, next) => {
+  .route("/:developerId")
+  .get(authenticate.verifyAdmin, authenticate.verifyUser, (req, res, next) => {
     Developers.findById(req.params.developerId)
       .then(
         developer => {
@@ -96,13 +104,13 @@ developerRouter
         next(err);
       });
   })
-  .post(authenticate.verifyAdmin, (req, res, next) => {
+  .post(authenticate.verifyAdmin, authenticate.verifyUser, (req, res, next) => {
     (res.statusCode = 403),
       res.end(
         "POST operation not supported on /developers/" + req.params.developerId
       );
   })
-  .put(authenticate.verifyAdmin, (req, res, next) => {
+  .put(authenticate.verifyAdmin, authenticate.verifyUser, (req, res, next) => {
     Developers.findByIdAndUpdate(
       req.params.developerId,
       { $set: req.body },
@@ -122,12 +130,16 @@ developerRouter
         next(err);
       });
   })
-  .delete(authenticate.verifyAdmin, (req, res, next) => {
-    (res.statusCode = 403),
-      res.end(
-        "DELETE operation not supported on /developers/" +
-          req.params.developerId
-      );
-  });
+  .delete(
+    authenticate.verifyUser,
+    authenticate.verifyAdmin,
+    (req, res, next) => {
+      (res.statusCode = 403),
+        res.end(
+          "DELETE operation not supported on /developers/" +
+            req.params.developerId
+        );
+    }
+  );
 
 module.exports = developerRouter;

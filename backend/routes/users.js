@@ -5,7 +5,7 @@ var bodyPerser = require("body-parser");
 var passport = require("passport");
 var authenticate = require("../authenticate");
 
-router.post(bodyPerser.json());
+router.use(bodyPerser.json());
 /* GET users listing. */
 router.post("/signup", (req, res, next) => {
   User.register(

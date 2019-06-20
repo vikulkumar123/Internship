@@ -6,15 +6,18 @@ var logger = require("morgan");
 var mongoose = require("mongoose");
 mongoose.set("useCreateIndex", true);
 var cors = require("cors");
+var passport = require("passport");
+var config = require("./config");
 var index = require("./routes/index");
 var users = require("./routes/users");
 var developerRouter = require("./routes/developersRouter");
-const mongoUrl = "mongodb://localhost:27017/internship";
-const connect = mongoose.connect(mongoUrl, { useNewUrlParser: true });
+
+const url = config.mongoUrl;
+const connect = mongoose.connect(url, { useNewUrlParser: true });
 
 connect.then(
   db => {
-    console.log("Connected To the Server correctly...!!");
+    console.log("Connected correctly to server");
   },
   err => {
     console.log(err);
@@ -34,6 +37,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use(passport.initialize());
 app.use("/", index);
 app.use("/users", users);
 app.use("/developers", developerRouter);

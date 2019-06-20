@@ -7,11 +7,11 @@ import CreateDeveloper from "./components/CreateDevelpoer";
 function App() {
   return (
     <BrowserRouter>
-      <div className="App">
+      <React.Fragment>
         <Route exact path="/" component={Login} />
         <Route exact path="/dashboard" component={Dashboard} />
         <Route exact path="/register" component={CreateDeveloper} />
-      </div>
+      </React.Fragment>
     </BrowserRouter>
   );
 }

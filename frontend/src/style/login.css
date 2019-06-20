@@ -34,8 +34,7 @@
   font-size: 1.728em;
 }
 
-input[type="text"],
-input[type="password"] {
+.loginInput {
   border: 1px solid #eee;
   width: 100%;
   transition: 0.7s;
@@ -49,8 +48,7 @@ input[type="password"] {
   display: block;
 }
 
-input[type="text"]:focus,
-input[type="password"]:focus {
+.loginInput:focus {
   border-color: rgba(108, 99, 255, 0.5);
   outline: 0;
   background-color: #ffffff;
@@ -60,7 +58,6 @@ form {
   margin-bottom: 1.5em;
 }
 form .double {
-  -js-display: flex;
   display: flex;
   justify-content: space-between;
 }
@@ -107,28 +104,7 @@ label {
   }
 }
 
-.forget {
-  text-align: left;
-}
-
 .auth__title {
   font-size: 1.728em;
   text-align: center;
-}
-
-p {
-  color: rgb(132, 123, 123);
-  text-align: center;
-}
-
-.signup {
-  text-align: right;
-  margin-top: 0px;
-  /* margin-left: 15px; */
-}
-
-.loginFooter {
-  color: rgb(132, 123, 123) !important;
-  margin-top: 6vh !important;
-  margin-left: 15px;
 }

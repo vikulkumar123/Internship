@@ -1,219 +1,459 @@
 import React, { Component } from "react";
-import image from "../images/undraw_online_discussion_5wgl.svg";
-import "../style/register.css";
 import AuthNavbar from "./AuthNavbar";
-import { Form, FormGroup, Label, Input } from "reactstrap";
-
-class Register extends Component {
+import * as EmailValidator from "email-validator";
+import "../style/register.css";
+class ContactUs extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
-      handleName: "",
+      firstname: "",
+      lastname: "",
       email: "",
-      password: "",
-      touched: {
-        name: false,
-        handleName: false,
-        email: false,
-        password: false
-      },
-      isEnable: true
+      content: "",
+      message: "",
+
+      errors: {
+        firstname: "",
+        lastname: "",
+        email: "",
+        content: "",
+        message: "",
+        disabled: true
+      }
     };
   }
 
-  handleInputChange = event => {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
+  handleChange = e => {
     this.setState({
-      [name]: value,
-      isEnable: false
-    });
-  };
-  handleSubmit = event => {
-    event.preventDefault();
-    alert(JSON.stringify(this.state));
-    this.setState({
-      name: "",
-      handleName: "",
-      email: "",
-      password: "",
-      touched: {
-        name: false,
-        handleName: false,
-        email: false,
-        password: false
-      },
-      isEnable: true
+      [e.target.id]: e.target.value
     });
   };
 
-  handleBlur = feild => event => {
+  handleSubmit = e => {
+    console.log(this.state);
+    e.preventDefault();
+
     this.setState({
-      touched: { ...this.state.touched, [feild]: true }
+      firstname: "",
+      lastname: "",
+      email: "",
+      content: "",
+      message: "",
+      errors: {
+        firstname: "",
+        lastname: "",
+        email: "",
+        content: "",
+        message: "",
+        disabled: true
+      }
     });
   };
 
-  validate = (name, handleName, email, password) => {
-    const error = {
-      name: "",
-      handleName: "",
+  handleBlur = e => {
+    const { errors, ...inputs } = this.state;
+    this.validation(inputs);
+  };
+
+  validation = ({ firstname, lastname, email, content, message }) => {
+    const errors = {
+      firstname: "",
+      lastname: "",
       email: "",
-      password: "",
-      isEnable: false
+      content: "",
+      message: ""
     };
-
-    var filter = /^([a-zA-Z0-9_\.\-])+\@iiitvadodara.ac.in/;
-    if (this.state.touched.email && !filter.test(email)) {
-      error.email = "Please provide a valid email address";
-      error.isEnable = true;
+    if (firstname.length === 0) {
+      errors.firstname = "Firstname can not be empty.";
+      errors.disabled = true;
+    } else if (lastname.length === 0) {
+      errors.lastname = "Lastname can not be empty.";
+      errors.disabled = true;
+    } else if (!EmailValidator.validate(email) || email.length === 0) {
+      errors.email = "Please enter valid e-mail address";
+      errors.disabled = true;
+    } else if (content.length === 0) {
+      errors.content = "Content field can not be null";
+      errors.disabled = true;
+    } else if (message.length === 0) {
+      errors.message = "Message can not be empty.";
+      errors.disabled = true;
     }
 
-    if (this.state.touched.name && name.length < 3) {
-      error.name = "Name must contains atleast 3 charchters";
-      error.isEnable = true;
-    } else if (this.state.touched.name && name.length > 20) {
-      error.name = "Name can contains atmost 20 charchters";
-      error.isEnable = true;
-    }
-
-    if (this.state.touched.handleName && handleName.length < 3) {
-      error.handleName = "Handle Name must contains atleast 3 charchters";
-      error.isEnable = true;
-    } else if (this.state.touched.handleName && handleName.length > 20) {
-      error.handleName = "Handle Name can contains atmost 20 charchters";
-      error.isEnable = true;
-    }
-    if (this.state.touched.password && password.length < 8) {
-      error.password = "Password must contain atleast 8 letters";
-      error.isEnable = true;
-    } else if (this.state.touched.password && password.length > 20) {
-      error.password = "Password length must be less then 20";
-      error.isEnable = true;
-    }
-    return error;
+    this.setState({ errors });
+    return errors;
   };
-  render() {
-    const errors = this.validate(
-      this.state.name,
-      this.state.handleName,
-      this.state.email,
-      this.state.password
-    );
-    const isEnable =
-      errors.isEnable ||
-      !(
-        this.state.touched.name &&
-        this.state.touched.handleName &&
-        this.state.touched.email &&
-        this.state.touched.password
-      ) ||
-      this.state.isEnable;
 
+  render() {
     return (
       <React.Fragment>
         <AuthNavbar />
-        <div className="loginDiv">
-          <div className="row">
-            <div className="auth">
-              <h1 className="auth__title">Create an account</h1>
-              <p>
-                Fill in your name, handle name, email and password to proceed
-              </p>
-              <Form className="form" onSubmit={this.handleSubmit}>
-                <FormGroup row>
-                  <Label>Name</Label>
-                  <Input
-                    type="text"
-                    name="name"
-                    id="name"
-                    placeholder="Enter your Full Name"
-                    value={this.state.name}
-                    onBlur={this.handleBlur("name")}
-                    valid={errors.name === "" && this.state.touched.name}
-                    invalid={errors.name !== ""}
-                    onChange={this.handleInputChange}
-                  />
-                  <p className="errors">{errors.name}</p>
-                </FormGroup>
-                <FormGroup row>
-                  <Label>Handle Name</Label>
-                  <Input
-                    type="text"
-                    name="handleName"
-                    id="handleName"
-                    placeholder="Display name"
-                    value={this.state.handleName}
-                    onBlur={this.handleBlur("handleName")}
-                    valid={
-                      errors.handleName === "" && this.state.touched.handleName
-                    }
-                    invalid={errors.handleName !== ""}
-                    onChange={this.handleInputChange}
-                  />
-                  <p className="errors">{errors.handleName}</p>
-                </FormGroup>
-                <FormGroup row>
-                  <Label>Email</Label>
-                  <Input
-                    type="text"
-                    name="email"
-                    id="email"
-                    placeholder="your@example.com"
-                    value={this.state.email}
-                    onBlur={this.handleBlur("email")}
-                    valid={errors.email === "" && this.state.touched.email}
-                    invalid={errors.email !== ""}
-                    onChange={this.handleInputChange}
-                  />
-                  <p className="errors">{errors.email}</p>
-                </FormGroup>
-                <FormGroup row>
-                  <Label>Password</Label>
-                  <Input
-                    type="password"
-                    name="password"
-                    id="password"
-                    placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
-                    autoComplete="off"
-                    value={this.state.password}
-                    onBlur={this.handleBlur("password")}
-                    valid={
-                      errors.password === "" && this.state.touched.password
-                    }
-                    invalid={errors.password !== ""}
-                    onChange={this.handleInputChange}
-                  />
-                  <p className="errors">{errors.password}</p>
-                </FormGroup>
+
+        <section className="section">
+          <div className="container">
+            <h3>Create Developer Profile</h3>
+            <div className="row">
+              <div className="col-md-6  offset-md-3" data-wow-delay=".2s">
                 <div className="row">
-                  <div className="col-md-5">
-                    <button disabled={isEnable} type="submit" className="but">
-                      Register
-                    </button>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label htmlFor="firstname" className="label">
+                        First Name *
+                      </label>
+                      <input
+                        id="firstname"
+                        type="text"
+                        name="firstname"
+                        className="form-control"
+                        placeholder="Please enter firstname"
+                        value={this.state.firstname}
+                        onChange={this.handleChange}
+                        onBlur={this.handleBlur}
+                      />
+                      <div>{this.state.errors.firstname}</div>
+                    </div>
                   </div>
-                  <div className="col-md-6 mt-2">
-                    <a href="/">
-                      <p style={{ color: "blue", textDecoration: "underline" }}>
-                        I’m already a member
-                      </p>
-                    </a>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label htmlFor="lastname" className="label">
+                        Last Name *
+                      </label>
+                      <input
+                        id="lastname"
+                        type="text"
+                        name="lastname"
+                        className="form-control"
+                        placeholder="Please enter Surname "
+                        value={this.state.lastname}
+                        onChange={this.handleChange}
+                        onBlur={this.handleBlur}
+                      />
+                      <div>{this.state.errors.lastname}</div>
+                    </div>
                   </div>
                 </div>
-                <div className="loginFooter">
-                  <p>
-                    By signing up, you agree to our Terms , Data Policy and
-                    Cookies Policy .
-                  </p>
+                {/* Email */}
+                <div className="form-group label-floating">
+                  <label htmlFor="email" className="label">
+                    Email *
+                  </label>
+                  <input
+                    id="email"
+                    type="email"
+                    name="email"
+                    className="form-control"
+                    placeholder="Please enter Email *"
+                    value={this.state.email}
+                    onChange={this.handleChange}
+                    onBlur={this.handleBlur}
+                  />
+                  <div>{this.state.errors.email}</div>
                 </div>
-              </Form>
+
+                {/* Phone Number */}
+
+                <div className="form-group label-floating">
+                  <label htmlFor="phone" className="label">
+                    Phone Number *
+                  </label>
+                  <input
+                    id="phone"
+                    type="string"
+                    name="phone"
+                    className="form-control"
+                    placeholder="Please enter your phone number *"
+                    value={this.state.phone}
+                    onChange={this.handleChange}
+                    onBlur={this.handleBlur}
+                  />
+                  <div>{this.state.errors.phone}</div>
+                </div>
+
+                {/* Skills */}
+                <div className="form-group label-floating">
+                  <label htmlFor="skills" className="label">
+                    Skills *
+                  </label>
+                  <input
+                    id="skills"
+                    type="string"
+                    name="skills"
+                    className="form-control"
+                    placeholder="Please enter skills *"
+                    value={this.state.skills}
+                    onChange={this.handleChange}
+                    onBlur={this.handleBlur}
+                  />
+                  <div>{this.state.errors.skills}</div>
+                </div>
+
+                {/* Score & Experience */}
+
+                <div className="row">
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label htmlFor="score" className="label">
+                        Score *
+                      </label>
+                      <input
+                        id="score"
+                        type="number"
+                        name="score"
+                        className="form-control"
+                        placeholder="Please enter score *"
+                        value={this.state.score}
+                        onChange={this.handleChange}
+                        onBlur={this.handleBlur}
+                      />
+                      <div className="">{this.state.errors.score}</div>
+                    </div>
+                  </div>
+
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label htmlFor="experience" className="label">
+                        Experience *
+                      </label>
+                      <input
+                        id="experience"
+                        type="number"
+                        name="experience"
+                        className="form-control"
+                        placeholder="Please enter experience *"
+                        value={this.state.experience}
+                        onChange={this.handleChange}
+                        onBlur={this.handleBlur}
+                      />
+                      <div>{this.state.errors.experience}</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Catgory */}
+
+                <label htmlFor="category" className="label">
+                  Catagory*
+                </label>
+                <div className="form-group">
+                  <div className="row">
+                    <div className="col-md-3">
+                      <div className="row">
+                        <div className="col-md-3">
+                          <input
+                            id="category"
+                            type="radio"
+                            name="category"
+                            className="form-control"
+                            value={this.state.category}
+                            onChange={this.handleChange}
+                            onBlur={this.handleBlur}
+                          />
+                        </div>
+                        <div className="col-md-9">
+                          <span>Consultant</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col-md-3">
+                      <div className="row">
+                        <div className="col-md-3">
+                          <input
+                            id="category"
+                            type="radio"
+                            name="category"
+                            className="form-control"
+                            value={this.state.category}
+                            onChange={this.handleChange}
+                            onBlur={this.handleBlur}
+                          />
+                        </div>
+                        <div className="col-md-9">
+                          <span>Freelancer</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-3">
+                      <div className="row">
+                        <div className="col-md-3">
+                          <input
+                            id="category"
+                            type="radio"
+                            name="category"
+                            className="form-control"
+                            value={this.state.category}
+                            onChange={this.handleChange}
+                            onBlur={this.handleBlur}
+                          />
+                        </div>
+                        <div className="col-md-9">
+                          <span>Inhouse team</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col-md-3">
+                      <div className="row">
+                        <div className="col-md-3">
+                          <input
+                            id="category"
+                            type="radio"
+                            name="category"
+                            className="form-control"
+                            value={this.state.category}
+                            onChange={this.handleChange}
+                            onBlur={this.handleBlur}
+                          />
+                        </div>
+                        <div className="col-md-9">
+                          <span>Remote worker</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div>{this.state.errors.category}</div>
+                </div>
+
+                {/* Location and Reference */}
+
+                <div className="row">
+                  <div className="col-md-6">
+                    <label htmlFor="location" className="label">
+                      Location *
+                    </label>
+                    <input
+                      id="location"
+                      type="string"
+                      name="location"
+                      className="form-control"
+                      placeholder="Please enter location *"
+                      value={this.state.location}
+                      onChange={this.handleChange}
+                      onBlur={this.handleBlur}
+                    />
+
+                    <div className="">{this.state.errors.location}</div>
+                  </div>
+
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label htmlFor="content" className="label">
+                        Reference *
+                      </label>
+                      <input
+                        id="content"
+                        type="string"
+                        name="content"
+                        className="form-control"
+                        placeholder="Enter reference*"
+                        value={this.state.content}
+                        onChange={this.handleChange}
+                        onBlur={this.handleBlur}
+                      />
+                      <div>{this.state.errors.content}</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Contract */}
+                <label htmlFor="contract" className="label">
+                  Contract *
+                </label>
+                <div className="form-group">
+                  <div className="row">
+                    <div className="col-md-6">
+                      <div className="row">
+                        <div className="col-md-3">
+                          <input
+                            id="category"
+                            type="radio"
+                            name="category"
+                            className="form-control"
+                            value={this.state.category}
+                            onChange={this.handleChange}
+                            onBlur={this.handleBlur}
+                          />
+                        </div>
+                        <div className="col-md-9">
+                          <span>Freelancer</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="row">
+                        <div className="col-md-3">
+                          <input
+                            id="category"
+                            type="radio"
+                            name="category"
+                            className="form-control"
+                            value={this.state.category}
+                            onChange={this.handleChange}
+                            onBlur={this.handleBlur}
+                          />
+                        </div>
+                        <div className="col-md-9">
+                          <span>Freelancer</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="">{this.state.errors.contract}</div>
+                </div>
+                {/* Git Link */}
+                <div className="form-group label-floating">
+                  <label htmlFor="github" className="label">
+                    GitHub *
+                  </label>
+                  <input
+                    id="github"
+                    type="url"
+                    name="github"
+                    className="form-control"
+                    placeholder="Please enter your Github link *"
+                    value={this.state.github}
+                    onChange={this.handleChange}
+                    onBlur={this.handleBlur}
+                  />
+                  <div>{this.state.errors.github}</div>
+                </div>
+
+                {/* LinkedIn Link */}
+                <div className="form-group label-floating">
+                  <label htmlFor="linkedin" className="label">
+                    LinkedIn *
+                  </label>
+                  <input
+                    id="linkedin"
+                    type="url"
+                    name="linkedin"
+                    className="form-control"
+                    placeholder="Please enter your LinkedIn link *"
+                    value={this.state.linkedin}
+                    onChange={this.handleChange}
+                    onBlur={this.handleBlur}
+                  />
+                  <div>{this.state.errors.linkedin}</div>
+                </div>
+
+                <div className="form-submit mt-5">
+                  <button
+                    className="btn3"
+                    type="submit"
+                    disabled={this.state.errors.disabled}
+                  >
+                    Send
+                  </button>
+                  <div id="msgSubmit" className="h3 text-center hidden" />
+                  <div className="clearfix" />
+                  <p style={{ marginTop: "-1%" }}>*These field are required</p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+        </section>
       </React.Fragment>
     );
   }
 }
-
-export default Register;
+export default ContactUs;

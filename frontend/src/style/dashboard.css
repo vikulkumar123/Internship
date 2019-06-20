@@ -2,10 +2,11 @@ form {
   position: fixed;
   width: 35%;
   height: 40px;
-
   text-align: center;
   white-space: nowrap;
+  overflow: hidden !important;
 }
+
 .searchBar {
   border: 1px solid #fff;
   background-color: rgb(238, 240, 242);
@@ -27,7 +28,7 @@ form {
   height: 24px;
 }
 
-form .formSearchIcon {
+.formSearchIcon {
   position: absolute;
   top: 9px;
   left: 14px;
@@ -40,11 +41,11 @@ form .formSearchIcon {
   margin-top: 20vh;
   margin-left: 30vw;
   display: block;
-  position: fixed;
+
   z-index: 100;
 }
 .contDiv {
-  margin-top: 35vh !important;
+  margin-top: 15vh !important;
   width: 100%;
   padding: 0 10vw;
   position: relative;

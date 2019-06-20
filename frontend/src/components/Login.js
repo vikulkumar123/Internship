@@ -23,6 +23,7 @@ class Login extends Component {
                     type="text"
                     name="email"
                     id="email"
+                    className="loginInput"
                     placeholder="your@example.com"
                   />
                   <label>Password</label>
@@ -30,6 +31,7 @@ class Login extends Component {
                     type="password"
                     name="password"
                     id="password"
+                    className="loginInput"
                     placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
                     autoComplete="off"
                   />

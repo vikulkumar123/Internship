@@ -16,7 +16,9 @@ class Login extends Component {
             <div className="col-md-6">
               <div className="auth__auth">
                 <h1 className="auth__title">Access your account</h1>
-                <p>Fill in your email and password to proceed</p>
+                <p style={{ textAlign: "center" }}>
+                  Fill in your email and password to proceed
+                </p>
                 <form className="form">
                   <label>Email</label>
                   <input

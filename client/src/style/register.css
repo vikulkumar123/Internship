@@ -4,20 +4,15 @@
   background-color: #88cfe0;
   z-index: 10;
 }
-.row {
-  width: 100% !important;
-}
+
 .section h3 {
   text-align: center;
   text-shadow: 1px 1px 4px #fff;
 }
-.col-md-6 {
+.padding {
   padding: 3px;
 }
-.col-md-3 {
-  padding: 0;
-}
-.col-md-9 {
+.paddingRadio {
   padding: 0;
 }
 

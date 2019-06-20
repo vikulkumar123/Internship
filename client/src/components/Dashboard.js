@@ -17,7 +17,7 @@ class Dashboard extends Component {
         <div className="row ">
           <div className="col-md-8 offset-md-3 searchDiv">
             <div className="search-form">
-              <form>
+              <form className="searchForm">
                 <FontAwesomeIcon icon={faSearch} className="formSearchIcon" />
                 <input
                   type="search"

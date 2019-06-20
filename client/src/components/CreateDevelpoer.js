@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import AuthNavbar from "./AuthNavbar";
-import * as EmailValidator from "email-validator";
 import "../style/register.css";
-import { Form, FormGroup, Label, Input, FormFeedback } from "reactstrap";
+import { Label, Input, FormFeedback } from "reactstrap";
 
 class ContactUs extends Component {
   constructor(props) {
@@ -206,9 +205,12 @@ class ContactUs extends Component {
           <div className="container">
             <h3>Create Developer Profile</h3>
             <div className="row">
-              <div className="col-md-6  offset-md-3" data-wow-delay=".2s">
+              <div
+                className="col-md-6 padding  offset-md-3"
+                data-wow-delay=".2s"
+              >
                 <div className="row">
-                  <div className="col-md-6">
+                  <div className="col-md-6 padding">
                     <div className="form-group">
                       <Label htmlFor="firstname" className="label">
                         First Name *
@@ -231,7 +233,7 @@ class ContactUs extends Component {
                       <FormFeedback>{errors.firstname}</FormFeedback>
                     </div>
                   </div>
-                  <div className="col-md-6">
+                  <div className="col-md-6 padding">
                     <div className="form-group">
                       <label htmlFor="lastname" className="label">
                         Last Name *
@@ -318,7 +320,7 @@ class ContactUs extends Component {
                 {/* Score & Experience */}
 
                 <div className="row">
-                  <div className="col-md-6">
+                  <div className="col-md-6 padding">
                     <div className="form-group">
                       <label htmlFor="score" className="label">
                         Score *
@@ -339,7 +341,7 @@ class ContactUs extends Component {
                     </div>
                   </div>
 
-                  <div className="col-md-6">
+                  <div className="col-md-6 padding">
                     <div className="form-group">
                       <label htmlFor="experience" className="label">
                         Experience *
@@ -371,9 +373,9 @@ class ContactUs extends Component {
                 </label>
                 <div className="form-group">
                   <div className="row">
-                    <div className="col-md-3">
+                    <div className="col-md-3 paddingRadio">
                       <div className="row">
-                        <div className="col-md-3">
+                        <div className="col-md-3 paddingRadio">
                           <input
                             id="category"
                             type="radio"
@@ -384,15 +386,15 @@ class ContactUs extends Component {
                             onBlur={this.handleBlur}
                           />
                         </div>
-                        <div className="col-md-9">
+                        <div className="col-md-9 paddingRadio">
                           <span>Consultant</span>
                         </div>
                       </div>
                     </div>
 
-                    <div className="col-md-3">
+                    <div className="col-md-3 paddingRadio">
                       <div className="row">
-                        <div className="col-md-3">
+                        <div className="col-md-3 paddingRadio">
                           <input
                             id="category"
                             type="radio"
@@ -403,14 +405,14 @@ class ContactUs extends Component {
                             onBlur={this.handleBlur}
                           />
                         </div>
-                        <div className="col-md-9">
+                        <div className="col-md-9 paddingRadio">
                           <span>Freelancer</span>
                         </div>
                       </div>
                     </div>
-                    <div className="col-md-3">
+                    <div className="col-md-3 paddingRadio">
                       <div className="row">
-                        <div className="col-md-3">
+                        <div className="col-md-3 paddingRadio">
                           <input
                             id="category"
                             type="radio"
@@ -421,15 +423,15 @@ class ContactUs extends Component {
                             onBlur={this.handleBlur}
                           />
                         </div>
-                        <div className="col-md-9">
+                        <div className="col-md-9 paddingRadio">
                           <span>Inhouse team</span>
                         </div>
                       </div>
                     </div>
 
-                    <div className="col-md-3">
+                    <div className="col-md-3 paddingRadio">
                       <div className="row">
-                        <div className="col-md-3">
+                        <div className="col-md-3 paddingRadio">
                           <input
                             id="category"
                             type="radio"
@@ -440,7 +442,7 @@ class ContactUs extends Component {
                             onBlur={this.handleBlur}
                           />
                         </div>
-                        <div className="col-md-9">
+                        <div className="col-md-9 paddingRadio">
                           <span>Remote worker</span>
                         </div>
                       </div>
@@ -452,7 +454,7 @@ class ContactUs extends Component {
                 {/* Location and Reference */}
 
                 <div className="row">
-                  <div className="col-md-6">
+                  <div className="col-md-6 padding">
                     <div className="form-group">
                       <label htmlFor="location" className="label">
                         Location *
@@ -474,7 +476,7 @@ class ContactUs extends Component {
                       <FormFeedback>{errors.location}</FormFeedback>
                     </div>
                   </div>
-                  <div className="col-md-6">
+                  <div className="col-md-6 padding">
                     <div className="form-group">
                       <label htmlFor="reference" className="label">
                         Reference *
@@ -505,9 +507,9 @@ class ContactUs extends Component {
                 </label>
                 <div className="form-group">
                   <div className="row">
-                    <div className="col-md-6">
+                    <div className="col-md-6 padding">
                       <div className="row">
-                        <div className="col-md-3">
+                        <div className="col-md-3 paddingRadio">
                           <input
                             id="category"
                             type="radio"
@@ -518,14 +520,14 @@ class ContactUs extends Component {
                             onBlur={this.handleBlur}
                           />
                         </div>
-                        <div className="col-md-9">
+                        <div className="col-md-9 paddingRadio">
                           <span>Freelancer</span>
                         </div>
                       </div>
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-6 padding">
                       <div className="row">
-                        <div className="col-md-3">
+                        <div className="col-md-3 paddingRadio">
                           <input
                             id="category"
                             type="radio"
@@ -536,7 +538,7 @@ class ContactUs extends Component {
                             onBlur={this.handleBlur}
                           />
                         </div>
-                        <div className="col-md-9">
+                        <div className="col-md-9 paddingRadio">
                           <span>Freelancer</span>
                         </div>
                       </div>

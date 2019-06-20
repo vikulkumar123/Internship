@@ -1,1 +1,1 @@
-# Internship
+# Admin panel

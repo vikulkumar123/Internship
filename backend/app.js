@@ -6,10 +6,11 @@ var logger = require("morgan");
 var mongoose = require("mongoose");
 mongoose.set("useCreateIndex", true);
 var cors = require("cors");
+var index = require("./routes/index");
+var users = require("./routes/users");
+var developerRouter = require("./routes/developersRouter");
 const mongoUrl = "mongodb://localhost:27017/internship";
 const connect = mongoose.connect(mongoUrl, { useNewUrlParser: true });
-
-var developerRouter = require("./routes/developersRouter");
 
 connect.then(
   db => {
@@ -19,9 +20,6 @@ connect.then(
     console.log(err);
   }
 );
-
-var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
 
 var app = express();
 
@@ -36,8 +34,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use("/", index);
+app.use("/users", users);
 app.use("/developers", developerRouter);
 
 // catch 404 and forward to error handler

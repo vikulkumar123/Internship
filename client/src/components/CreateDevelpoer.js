@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import AuthNavbar from "./AuthNavbar";
 import "../style/register.css";
 import { Form, Label, Input, FormFeedback } from "reactstrap";
+import { connect } from "react-redux";
+import { createDeveloper } from "../redux/actions/developerAction";
+import PropTypes from "prop-types";
 
 class ContactUs extends Component {
   constructor(props) {
@@ -14,6 +17,8 @@ class ContactUs extends Component {
       skills: "",
       score: "",
       experience: "",
+      category: "",
+      contract: "",
       github: "",
       linkedin: "",
       location: "",
@@ -46,7 +51,8 @@ class ContactUs extends Component {
   handleSubmit = e => {
     console.log(this.state);
     e.preventDefault();
-    alert(this.state);
+
+    this.props.createDeveloper(this.state);
 
     this.setState({
       firstname: "",
@@ -531,18 +537,18 @@ class ContactUs extends Component {
                         <div className="row">
                           <div className="col-md-3 paddingRadio">
                             <input
-                              id="category"
+                              id="contract"
                               type="radio"
-                              name="category"
+                              name="contract"
                               className="form-control"
-                              value={this.state.category}
+                              value={this.state.contract}
                               onChange={this.handleChange}
                               onBlur={this.handleBlur}
                               checked
                             />
                           </div>
                           <div className="col-md-9 paddingRadio">
-                            <span>Freelancer</span>
+                            <span>Fixed</span>
                           </div>
                         </div>
                       </div>
@@ -550,17 +556,17 @@ class ContactUs extends Component {
                         <div className="row">
                           <div className="col-md-3 paddingRadio">
                             <input
-                              id="category"
+                              id="contract"
                               type="radio"
-                              name="category"
+                              name="contract"
                               className="form-control"
-                              value={this.state.category}
+                              value={this.state.contract}
                               onChange={this.handleChange}
                               onBlur={this.handleBlur}
                             />
                           </div>
                           <div className="col-md-9 paddingRadio">
-                            <span>Freelancer</span>
+                            <span>Hourly</span>
                           </div>
                         </div>
                       </div>
@@ -628,4 +634,16 @@ class ContactUs extends Component {
     );
   }
 }
-export default ContactUs;
+
+ContactUs.propTypes = {
+  createDeveloper: PropTypes.func.isRequired,
+  developer: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  developer: state.developer
+});
+export default connect(
+  mapStateToProps,
+  { createDeveloper }
+)(ContactUs);

@@ -14,6 +14,8 @@ class ContactUs extends Component {
       skills: "",
       score: "",
       experience: "",
+      category: "Consultant",
+      contract: "Fixed",
       github: "",
       linkedin: "",
       location: "",
@@ -44,9 +46,8 @@ class ContactUs extends Component {
   };
 
   handleSubmit = e => {
-    console.log(this.state);
+    alert(JSON.stringify(this.state));
     e.preventDefault();
-    alert(this.state);
 
     this.setState({
       firstname: "",
@@ -56,6 +57,8 @@ class ContactUs extends Component {
       skills: "",
       score: "",
       experience: "",
+      category: "Consultant",
+      contract: "Fixed",
       location: "",
       linkedin: "",
       github: "",
@@ -81,6 +84,8 @@ class ContactUs extends Component {
     this.setState({
       touched: { ...this.state.touched, [feild]: true }
     });
+
+    console.log(this.state);
   };
 
   validate = (
@@ -114,16 +119,16 @@ class ContactUs extends Component {
     if (this.state.touched.firstname && firstname.length < 3) {
       error.firstname = "First Name must contains atleast 3 charchters";
       error.isEnable = true;
-    } else if (this.state.touched.firstname && firstname.length > 20) {
-      error.firstname = "First Name can contains atmost 20 charchters";
+    } else if (this.state.touched.firstname && firstname.length > 50) {
+      error.firstname = "First Name can contains atmost 50 charchters";
       error.isEnable = true;
     }
 
     if (this.state.touched.lastname && lastname.length < 3) {
       error.lastname = "Last Name must contains atleast 3 charchters";
       error.isEnable = true;
-    } else if (this.state.touched.lastname && lastname.length > 20) {
-      error.lastname = "lastname can contains atmost 20 charchters";
+    } else if (this.state.touched.lastname && lastname.length > 50) {
+      error.lastname = "lastname can contains atmost 50 charchters";
       error.isEnable = true;
     }
     const reg = /^\d+$/;
@@ -407,9 +412,9 @@ class ContactUs extends Component {
                               type="radio"
                               name="category"
                               className="form-control"
-                              value={this.state.category}
+                              value="Consultant"
                               onChange={this.handleChange}
-                              onBlur={this.handleBlur}
+                              checked={this.state.category === "Consultant"}
                             />
                           </div>
                           <div className="col-md-9 paddingRadio">
@@ -425,11 +430,11 @@ class ContactUs extends Component {
                               id="category"
                               type="radio"
                               name="category"
+                              checked={true}
                               className="form-control"
-                              value={this.state.category}
+                              value="Freelancer"
                               onChange={this.handleChange}
-                              onBlur={this.handleBlur}
-                              checked
+                              checked={this.state.category === "Freelancer"}
                             />
                           </div>
                           <div className="col-md-9 paddingRadio">
@@ -445,9 +450,9 @@ class ContactUs extends Component {
                               type="radio"
                               name="category"
                               className="form-control"
-                              value={this.state.category}
+                              value="InhouseTeam"
                               onChange={this.handleChange}
-                              onBlur={this.handleBlur}
+                              checked={this.state.category === "InhouseTeam"}
                             />
                           </div>
                           <div className="col-md-9 paddingRadio">
@@ -464,9 +469,9 @@ class ContactUs extends Component {
                               type="radio"
                               name="category"
                               className="form-control"
-                              value={this.state.category}
+                              value="RemoteWorker"
                               onChange={this.handleChange}
-                              onBlur={this.handleBlur}
+                              checked={this.state.category === "RemoteWorker"}
                             />
                           </div>
                           <div className="col-md-9 paddingRadio">
@@ -539,18 +544,17 @@ class ContactUs extends Component {
                         <div className="row">
                           <div className="col-md-3 paddingRadio">
                             <input
-                              id="category"
+                              id="contract"
                               type="radio"
-                              name="category"
+                              name="contract"
                               className="form-control"
-                              value={this.state.category}
+                              value="Fixed"
                               onChange={this.handleChange}
-                              onBlur={this.handleBlur}
-                              checked
+                              checked={this.state.contract === "Fixed"}
                             />
                           </div>
                           <div className="col-md-9 paddingRadio">
-                            <span>Freelancer</span>
+                            <span>Fixed</span>
                           </div>
                         </div>
                       </div>
@@ -558,22 +562,21 @@ class ContactUs extends Component {
                         <div className="row">
                           <div className="col-md-3 paddingRadio">
                             <input
-                              id="category"
+                              id="contract"
                               type="radio"
-                              name="category"
+                              name="contract"
                               className="form-control"
-                              value={this.state.category}
+                              value="Hourly"
                               onChange={this.handleChange}
-                              onBlur={this.handleBlur}
+                              checked={this.state.contract === "Hourly"}
                             />
                           </div>
                           <div className="col-md-9 paddingRadio">
-                            <span>Freelancer</span>
+                            <span>Hourly</span>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div className="">{errors.contract}</div>
                   </div>
                   {/* Git Link */}
                   <div className="form-group label-floating">

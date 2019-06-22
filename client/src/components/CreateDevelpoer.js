@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import AuthNavbar from "./AuthNavbar";
 import "../style/register.css";
 import { Form, Label, Input, FormFeedback } from "reactstrap";
+import { connect } from "react-redux";
+import { createDeveloper } from "../redux/actions/developerAction";
+import PropTypes from "prop-types";
 
 class ContactUs extends Component {
   constructor(props) {
@@ -639,4 +642,16 @@ class ContactUs extends Component {
     );
   }
 }
-export default ContactUs;
+
+ContactUs.propTypes = {
+  createDeveloper: PropTypes.func.isRequired,
+  developer: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  developer: state.developer
+});
+export default connect(
+  mapStateToProps,
+  { createDeveloper }
+)(ContactUs);

@@ -1,15 +1,22 @@
 import React, { Component } from "react";
 import "../style/dashboard.css";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import Card from "./Card";
 import AuthNavbar from "./AuthNavbar";
+import { connect } from "react-redux";
+import { getDevelopers } from "../redux/actions/developerAction";
+
 class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
+
+  componentDidMount() {
+    this.props.getDevelopers();
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -30,11 +37,18 @@ class Dashboard extends Component {
           </div>
         </div>
         <div className="contDiv">
-          <Card />
+          <Card developers={this.props.developers} />
         </div>
       </React.Fragment>
     );
   }
 }
 
-export default Dashboard;
+const mapStateToProps = state => ({
+  developers: state.developer.developers
+});
+
+export default connect(
+  mapStateToProps,
+  { getDevelopers }
+)(Dashboard);

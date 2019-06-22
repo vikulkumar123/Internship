@@ -3,6 +3,6 @@ import developerReducer from "./developerReducer";
 import authReducer from "./authReducer";
 
 export default combineReducers({
-  developer: developerReducer,
-  auth: authReducer
+  developer: developerReducer
+  // auth: authReducer
 });

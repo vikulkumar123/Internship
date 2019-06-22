@@ -1,6 +1,5 @@
 var createError = require("http-errors");
 var express = require("express");
-var path = require("path");
 var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
 var passport = require("passport");
@@ -31,11 +30,9 @@ app.use(bodyParser.json());
 // Passport middleware
 app.use(passport.initialize());
 
-app.use(express.static(path.join(__dirname, "public")));
-
 // Routes
-app.use("/", users);
-app.use("/developers", developerRouter);
+app.use("/api/", users);
+app.use("/api/developers", developerRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

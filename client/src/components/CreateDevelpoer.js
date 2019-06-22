@@ -53,6 +53,40 @@ class ContactUs extends Component {
   handleSubmit = e => {
     alert(JSON.stringify(this.state));
     e.preventDefault();
+    const {
+      firstname,
+      lastname,
+      email,
+      phone,
+      skills,
+      score,
+      experience,
+      category,
+      contract,
+      github,
+      linkedin,
+      location,
+      reference,
+      archive,
+      isBlacklist
+    } = this.state;
+    this.props.createDeveloper({
+      firstname,
+      lastname,
+      email,
+      phone,
+      skills,
+      score,
+      experience,
+      category,
+      contract,
+      github,
+      linkedin,
+      location,
+      reference,
+      archive,
+      isBlacklist
+    });
 
     this.setState({
       firstname: "",
@@ -89,8 +123,6 @@ class ContactUs extends Component {
     this.setState({
       touched: { ...this.state.touched, [feild]: true }
     });
-
-    console.log(this.state);
   };
 
   validate = (
@@ -144,7 +176,8 @@ class ContactUs extends Component {
       error.phone = " Phone number should contains atleast 8 number.";
       error.isEnable = true;
     }
-    var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    // eslint-disable-next-line
+    const filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     if (this.state.touched.email && !filter.test(email)) {
       error.email = "Please provide a valid email address";
     }
@@ -238,10 +271,7 @@ class ContactUs extends Component {
             <h3>Create Developer Profile</h3>
             <Form className="form" onSubmit={this.handleSubmit}>
               <div className="row">
-                <div
-                  className="col-md-6 padding  offset-md-3"
-                  data-wow-delay=".2s"
-                >
+                <div className="col-md-6 padding  offset-md-3">
                   <div className="row">
                     <div className="col-md-6 padding">
                       <div className="form-group">
@@ -435,7 +465,6 @@ class ContactUs extends Component {
                               id="category"
                               type="radio"
                               name="category"
-                              checked={true}
                               className="form-control"
                               value="Freelancer"
                               onChange={this.handleChange}
@@ -590,7 +619,7 @@ class ContactUs extends Component {
                     </label>
                     <Input
                       id="github"
-                      type="url"
+                      type="text"
                       name="github"
                       className="form-control"
                       placeholder="Please enter your Github link *"
@@ -610,7 +639,7 @@ class ContactUs extends Component {
                     </label>
                     <Input
                       id="linkedin"
-                      type="url"
+                      type="text"
                       name="linkedin"
                       className="form-control"
                       placeholder="Please enter your LinkedIn link *"

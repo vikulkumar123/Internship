@@ -36,6 +36,15 @@
   margin-top: 0.2% !important;
   margin-left: 4% !important;
 }
+
+.btn3:disabled {
+  background-color: #2193b0;
+  border: #2193b0;
+  color: white !important;
+  padding: 1.5% 7% 1.5% 7% !important;
+  margin-top: 0.2% !important;
+  margin-left: 4% !important;
+}
 .form-control,
 .form-group .form-control {
   background-color: white;

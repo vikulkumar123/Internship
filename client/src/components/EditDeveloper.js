@@ -3,7 +3,7 @@ import AuthNavbar from "./AuthNavbar";
 import "../style/register.css";
 import { Form, Label, Input, FormFeedback } from "reactstrap";
 import { connect } from "react-redux";
-import { editDeveloper } from "../redux/actions/developerAction";
+import { editDeveloper, getDeveloper } from "../redux/actions/developerAction";
 import PropTypes from "prop-types";
 
 class EditDeveloper extends Component {
@@ -43,6 +43,10 @@ class EditDeveloper extends Component {
     };
   }
 
+  componentDidMount() {
+    this.props.getDeveloper(this.props.match.params.developerId);
+    console.log(this.props.developer);
+  }
   handleChange = e => {
     this.setState({
       [e.target.name]: e.target.value,
@@ -56,32 +60,9 @@ class EditDeveloper extends Component {
 
     this.props.editDeveloper(this.state);
 
-    this.setState({
-      firstname: "",
-      lastname: "",
-      email: "",
-      phone: "",
-      skills: "",
-      score: "",
-      experience: "",
-      location: "",
-      linkedin: "",
-      github: "",
-      reference: "",
+    this.props.history.push("/dashboard");
 
-      touched: {
-        firstname: false,
-        lastname: false,
-        email: false,
-        phone: false,
-        skills: false,
-        score: false,
-        experience: false,
-        location: false,
-        linkedin: false,
-        github: false,
-        reference: false
-      },
+    this.setState({
       isEnable: true
     });
   };
@@ -142,7 +123,9 @@ class EditDeveloper extends Component {
       error.phone = " Phone number should contains atleast 8 number.";
       error.isEnable = true;
     }
-    var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+    // eslint-disable-next-line
+    const filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     if (this.state.touched.email && !filter.test(email)) {
       error.email = "Please provide a valid email address";
     }
@@ -181,10 +164,10 @@ class EditDeveloper extends Component {
     }
 
     if (this.state.touched.github && github.length < 1) {
-      error.github = "Github Profile can't be empty..";
+      error.github = "github profile field can't be empty.";
       error.isEnable = true;
     } else if (this.state.touched.github && !regexpUrl.test(github)) {
-      error.github = "Please provide a valid Github profile URL.";
+      error.github = "Please provide a valid github profile URL.";
       error.isEnable = true;
     }
 
@@ -251,7 +234,11 @@ class EditDeveloper extends Component {
                           name="firstname"
                           className="form-control"
                           placeholder="Please enter firstname"
-                          value={this.state.firstname}
+                          value={
+                            this.props.developer.developer
+                              ? this.props.developer.developer.firstname
+                              : ""
+                          }
                           valid={
                             errors.firstname === "" &&
                             this.state.touched.firstname
@@ -275,7 +262,11 @@ class EditDeveloper extends Component {
                           name="lastname"
                           className="form-control"
                           placeholder="Please enter Surname "
-                          value={this.state.lastname}
+                          value={
+                            this.props.developer.developer
+                              ? this.props.developer.developer.lastname
+                              : ""
+                          }
                           valid={
                             errors.lastname === "" &&
                             this.state.touched.lastname
@@ -299,7 +290,11 @@ class EditDeveloper extends Component {
                       name="email"
                       className="form-control"
                       placeholder="Please enter Email *"
-                      value={this.state.email}
+                      value={
+                        this.props.developer.developer
+                          ? this.props.developer.developer.email
+                          : ""
+                      }
                       valid={errors.email === "" && this.state.touched.email}
                       invalid={errors.email !== ""}
                       onChange={this.handleChange}
@@ -320,7 +315,11 @@ class EditDeveloper extends Component {
                       name="phone"
                       className="form-control"
                       placeholder="Please enter your phone number *"
-                      value={this.state.phone}
+                      value={
+                        this.props.developer.developer
+                          ? this.props.developer.developer.phone
+                          : ""
+                      }
                       valid={errors.phone === "" && this.state.touched.phone}
                       invalid={errors.phone !== ""}
                       onChange={this.handleChange}
@@ -340,7 +339,11 @@ class EditDeveloper extends Component {
                       name="skills"
                       className="form-control"
                       placeholder="Please enter skills *"
-                      value={this.state.skills}
+                      value={
+                        this.props.developer.developer
+                          ? this.props.developer.developer.skills
+                          : ""
+                      }
                       valid={errors.skills === "" && this.state.touched.skills}
                       invalid={errors.skills !== ""}
                       onChange={this.handleChange}
@@ -363,7 +366,11 @@ class EditDeveloper extends Component {
                           name="score"
                           className="form-control"
                           placeholder="Please enter score *"
-                          value={this.state.score}
+                          value={
+                            this.props.developer.developer
+                              ? this.props.developer.developer.score
+                              : ""
+                          }
                           valid={
                             errors.score === "" && this.state.touched.score
                           }
@@ -386,7 +393,11 @@ class EditDeveloper extends Component {
                           name="experience"
                           className="form-control"
                           placeholder="Please enter experience *"
-                          value={this.state.experience}
+                          value={
+                            this.props.developer.developer
+                              ? this.props.developer.developer.experience
+                              : ""
+                          }
                           valid={
                             errors.experience === "" &&
                             this.state.touched.experience
@@ -415,9 +426,14 @@ class EditDeveloper extends Component {
                               type="radio"
                               name="category"
                               className="form-control"
-                              value={this.state.category}
+                              value={
+                                this.props.developer.developer
+                                  ? this.props.developer.developer.category
+                                  : ""
+                              }
                               onChange={this.handleChange}
                               onBlur={this.handleBlur}
+                              checked
                             />
                           </div>
                           <div className="col-md-9 paddingRadio">
@@ -434,10 +450,13 @@ class EditDeveloper extends Component {
                               type="radio"
                               name="category"
                               className="form-control"
-                              value={this.state.category}
+                              value={
+                                this.props.developer.developer
+                                  ? this.props.developer.developer.category
+                                  : ""
+                              }
                               onChange={this.handleChange}
                               onBlur={this.handleBlur}
-                              checked
                             />
                           </div>
                           <div className="col-md-9 paddingRadio">
@@ -453,7 +472,11 @@ class EditDeveloper extends Component {
                               type="radio"
                               name="category"
                               className="form-control"
-                              value={this.state.category}
+                              value={
+                                this.props.developer.developer
+                                  ? this.props.developer.developer.category
+                                  : ""
+                              }
                               onChange={this.handleChange}
                               onBlur={this.handleBlur}
                             />
@@ -472,7 +495,11 @@ class EditDeveloper extends Component {
                               type="radio"
                               name="category"
                               className="form-control"
-                              value={this.state.category}
+                              value={
+                                this.props.developer.developer
+                                  ? this.props.developer.developer.category
+                                  : ""
+                              }
                               onChange={this.handleChange}
                               onBlur={this.handleBlur}
                             />
@@ -500,7 +527,11 @@ class EditDeveloper extends Component {
                           name="location"
                           className="form-control"
                           placeholder="Please enter location *"
-                          value={this.state.location}
+                          value={
+                            this.props.developer.developer
+                              ? this.props.developer.developer.location
+                              : ""
+                          }
                           valid={
                             errors.location === "" &&
                             this.state.touched.location
@@ -523,7 +554,11 @@ class EditDeveloper extends Component {
                           name="reference"
                           className="form-control"
                           placeholder="Enter reference*"
-                          value={this.state.reference}
+                          value={
+                            this.props.developer.developer
+                              ? this.props.developer.developer.reference
+                              : ""
+                          }
                           valid={
                             errors.reference === "" &&
                             this.state.touched.reference
@@ -551,7 +586,11 @@ class EditDeveloper extends Component {
                               type="radio"
                               name="contract"
                               className="form-control"
-                              value={this.state.contract}
+                              value={
+                                this.props.developer.developer
+                                  ? this.props.developer.developer.contract
+                                  : ""
+                              }
                               onChange={this.handleChange}
                               onBlur={this.handleBlur}
                               checked
@@ -570,7 +609,11 @@ class EditDeveloper extends Component {
                               type="radio"
                               name="contract"
                               className="form-control"
-                              value={this.state.contract}
+                              value={
+                                this.props.developer.developer
+                                  ? this.props.developer.developer.contract
+                                  : ""
+                              }
                               onChange={this.handleChange}
                               onBlur={this.handleBlur}
                             />
@@ -590,11 +633,15 @@ class EditDeveloper extends Component {
                     </label>
                     <Input
                       id="github"
-                      type="url"
+                      type="text"
                       name="github"
                       className="form-control"
-                      placeholder="Please enter your Github link *"
-                      value={this.state.github}
+                      placeholder="Please enter your github link *"
+                      value={
+                        this.props.developer.developer
+                          ? this.props.developer.developer.github
+                          : ""
+                      }
                       valid={errors.github === "" && this.state.touched.github}
                       invalid={errors.github !== ""}
                       onChange={this.handleChange}
@@ -610,11 +657,15 @@ class EditDeveloper extends Component {
                     </label>
                     <Input
                       id="linkedin"
-                      type="url"
+                      type="text"
                       name="linkedin"
                       className="form-control"
                       placeholder="Please enter your LinkedIn link *"
-                      value={this.state.linkedin}
+                      value={
+                        this.props.developer.developer
+                          ? this.props.developer.developer.linkedin
+                          : ""
+                      }
                       valid={
                         errors.linkedin === "" && this.state.touched.linkedin
                       }
@@ -651,9 +702,9 @@ EditDeveloper.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  developers: state.developer.developers
+  developer: state.developer
 });
 export default connect(
   mapStateToProps,
-  { editDeveloper }
+  { editDeveloper, getDeveloper }
 )(EditDeveloper);

@@ -42,27 +42,22 @@ developerRouter
     }
   );
 
-developerRouter.post(
-  "/register",
-  authenticate.verifyUser,
-  authenticate.verifyAdmin,
-  (req, res, next) => {
-    Developers.create(req.body)
-      .then(
-        developer => {
-          res.statusCode = 200;
-          res.setHeader("Content-Type", "application/json");
-          res.json(developer);
-        },
-        err => {
-          next(err);
-        }
-      )
-      .catch(err => {
+developerRouter.post("/register", (req, res, next) => {
+  Developers.create(req.body)
+    .then(
+      developer => {
+        res.statusCode = 200;
+        res.setHeader("Content-Type", "application/json");
+        res.json(developer);
+      },
+      err => {
         next(err);
-      });
-  }
-);
+      }
+    )
+    .catch(err => {
+      next(err);
+    });
+});
 
 developerRouter.get(
   "/blacklist",
@@ -87,8 +82,8 @@ developerRouter.get(
 );
 
 developerRouter
-  .route("/:developerId")
-  .get(authenticate.verifyAdmin, authenticate.verifyUser, (req, res, next) => {
+  .route("/edit/:developerId")
+  .get((req, res, next) => {
     Developers.findById(req.params.developerId)
       .then(
         developer => {

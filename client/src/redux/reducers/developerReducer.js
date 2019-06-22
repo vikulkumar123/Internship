@@ -18,13 +18,20 @@ const developers = (state = initialState, action) => {
     case ActionTypes.CREATE_DEVELOPER:
       return {
         ...state,
-        developers: [...state.developers, action.payload]
+        developers: [action.payload, ...state.developers]
       };
 
     case ActionTypes.GET_DEVELOPERS:
       return {
         ...state,
         developers: action.payload,
+        isLoading: false
+      };
+
+    case ActionTypes.GET_DEVELOPER:
+      return {
+        ...state,
+        developer: action.payload,
         isLoading: false
       };
 

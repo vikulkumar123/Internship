@@ -15,6 +15,7 @@ function App() {
           <Route exact path="/" component={Login} />
           <Route exact path="/dashboard" component={Dashboard} />
           <Route exact path="/register" component={CreateDeveloper} />
+          <Route exact path="/edit/:developerId" component={EditDeveloper} />
         </React.Fragment>
       </BrowserRouter>
     </Provider>

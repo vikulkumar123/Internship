@@ -117,11 +117,6 @@ class ContactUs extends Component {
       isEnable: false
     };
 
-    if (this.state.touched.email && email.length < 1) {
-      error.email = "Please provide a valid email address";
-      error.isEnable = true;
-    }
-
     if (this.state.touched.firstname && firstname.length < 3) {
       error.firstname = "First Name must contains atleast 3 charchters";
       error.isEnable = true;
@@ -137,12 +132,17 @@ class ContactUs extends Component {
       error.lastname = "lastname can contains atmost 20 charchters";
       error.isEnable = true;
     }
-    if (this.state.touched.phone && phone.length < 8) {
-      error.phone = "Phone must contain atleast 8 letters";
+    const reg = /^\d+$/;
+    if (this.state.touched.phone && !reg.test(phone)) {
+      error.phone = " Phone number should contains numeric value only";
       error.isEnable = true;
-    } else if (this.state.touched.phone && phone.length > 20) {
-      error.phone = "Phone length must be less then 20";
+    } else if (this.state.touched.phone && phone.length < 8) {
+      error.phone = " Phone number should contains atleast 8 number.";
       error.isEnable = true;
+    }
+    var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    if (this.state.touched.email && !filter.test(email)) {
+      error.email = "Please provide a valid email address";
     }
     if (this.state.touched.skills && skills.length < 1) {
       error.skills = "Skill field can not be empty.";
@@ -168,13 +168,21 @@ class ContactUs extends Component {
       error.isEnable = true;
     }
 
+    const regexpUrl = /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/;
+
     if (this.state.touched.linkedin && linkedin.length < 1) {
-      error.linkedin = "Please provide a valid linkedin Profile";
+      error.linkedin = "Linkedin profile field can't be empty.";
+      error.isEnable = true;
+    } else if (this.state.touched.linkedin && !regexpUrl.test(linkedin)) {
+      error.linkedin = "Please provide a valid Linkedin profile URL.";
       error.isEnable = true;
     }
 
     if (this.state.touched.github && github.length < 1) {
-      error.github = "Please provide a valid Github Profile.";
+      error.github = "Github Profile can't be empty..";
+      error.isEnable = true;
+    } else if (this.state.touched.github && !regexpUrl.test(github)) {
+      error.github = "Please provide a valid Github profile URL.";
       error.isEnable = true;
     }
 

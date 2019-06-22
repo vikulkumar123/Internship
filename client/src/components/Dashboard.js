@@ -5,7 +5,10 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import Card from "./Card";
 import AuthNavbar from "./AuthNavbar";
 import { connect } from "react-redux";
-import { getDevelopers } from "../redux/actions/developerAction";
+import {
+  getDevelopers,
+  archiveDeveloper
+} from "../redux/actions/developerAction";
 
 class Dashboard extends Component {
   constructor(props) {
@@ -50,5 +53,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getDevelopers }
+  { getDevelopers, archiveDeveloper }
 )(Dashboard);

@@ -3,8 +3,8 @@ import * as ActionTypes from "../actions/actionTypes";
 const initialState = {
   loading: false,
   errMessage: null,
-  developers: [],
-  developer: null
+  developer: null,
+  developers: []
 };
 
 const developers = (state = initialState, action) => {
@@ -28,7 +28,7 @@ const developers = (state = initialState, action) => {
         isLoading: false
       };
 
-    case ActionTypes.GET_DEVELOPER:
+    case ActionTypes.SEARCH_DEVELOPER:
       return {
         ...state,
         developer: action.payload
@@ -43,7 +43,7 @@ const developers = (state = initialState, action) => {
     case ActionTypes.EDIT_DEVELOPER:
       return {
         ...state,
-        developers: action.payload
+        developer: action.payload
       };
 
     case ActionTypes.ARCHIVE_DEVELOPER:

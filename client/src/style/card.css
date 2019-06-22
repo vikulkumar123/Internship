@@ -22,22 +22,11 @@
   margin-top: 10px;
 }
 
-a {
-  color: rgb(113, 112, 112);
-  text-decoration: none;
-}
-a:hover {
-  color: rgb(113, 112, 112);
-  text-decoration: none;
-  color: blueviolet;
-  font-size: 16px;
-}
 .actionButton {
-  width: 100%;
   color: rgb(154, 154, 154);
   font: 400 12px/20px Roboto, "Helvetica Neue", sans-serif;
   letter-spacing: 0.3157px;
-  border-radius: 5px;
+  border: none;
   text-decoration: none !important;
 }
 

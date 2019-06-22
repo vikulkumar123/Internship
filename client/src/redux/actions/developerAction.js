@@ -18,9 +18,23 @@ export const createDeveloper = developer => {
   };
 };
 
+<<<<<<< Updated upstream
 export const developerLoading = () => {
   return {
     type: ActionTypes.DEVELOPER_LOADING
+=======
+export const archiveDeveloper = archive => {
+  return {
+    type: ActionTypes.ARCHIVE_DEVELOPER,
+    payload: archive
+  };
+};
+
+export const blacklistDeveloper = blacklist => {
+  return {
+    type: ActionTypes.BLACKLIST_DEVELOPER,
+    payload: blacklist
+>>>>>>> Stashed changes
   };
 };
 

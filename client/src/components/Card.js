@@ -3,10 +3,18 @@ import "../style/card.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import {
+  archiveDeveloper,
+  blacklistDeveloper
+} from "../redux/actions/developerAction";
 class Card extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      archive: true,
+      isBlacklisted: true
+    };
   }
   render() {
     console.log(this.props.developers);
@@ -43,15 +51,29 @@ class Card extends Component {
               </div>
               <div className="cardFooter row">
                 <div className="archiveButton col-6">
-                  <a className="actionButton" href="/archive/:userId">
+                  <button
+                    className="actionButton"
+                    onClick={() =>
+                      this.props.archiveDeveloper(
+                        (developer.archive = this.state.archive)
+                      )
+                    }
+                  >
                     Archive
-                  </a>
+                  </button>
                 </div>
                 <div className="seperater col-1" />
                 <div className="blacklistButton col-5">
-                  <a className="actionButton" href="/blacklist/:userId">
+                  <button
+                    className="actionButton"
+                    onClick={() =>
+                      this.props.blacklistDeveloper(
+                        (developer.isBlacklisted = this.state.isBlacklisted)
+                      )
+                    }
+                  >
                     Blacklist
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>
@@ -62,4 +84,11 @@ class Card extends Component {
   }
 }
 
-export default Card;
+const mapStateToProps = state => ({
+  developer: state.developer
+});
+
+export default connect(
+  mapStateToProps,
+  { archiveDeveloper, blacklistDeveloper }
+)(Card);

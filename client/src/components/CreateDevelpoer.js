@@ -23,6 +23,8 @@ class ContactUs extends Component {
       linkedin: "",
       location: "",
       reference: "",
+      archive: false,
+      isBlacklist: false,
 
       touched: {
         firstname: false,

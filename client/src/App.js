@@ -5,6 +5,7 @@ import { BrowserRouter, Route } from "react-router-dom";
 import CreateDeveloper from "./components/CreateDevelpoer";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import EditDeveloper from "./components/EditDeveloper";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route exact path="/" component={Login} />
           <Route exact path="/dashboard" component={Dashboard} />
           <Route exact path="/register" component={CreateDeveloper} />
+          <Route exact path="/edit/:developerId" component={EditDeveloper} />
         </React.Fragment>
       </BrowserRouter>
     </Provider>

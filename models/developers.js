@@ -26,7 +26,7 @@ const developerSchema = new Schema(
       required: true,
       min: 0
     },
-    devCategory: {
+    category: {
       type: String,
       possibleValues: [
         "Consultant",

@@ -3,38 +3,7 @@ import * as ActionTypes from "../actions/actionTypes";
 const initialState = {
   loading: false,
   errMessage: null,
-  developers: [
-    {
-      id: 1,
-      firstname: "Shubham",
-      lastname: "Singh",
-      skills: ["bootstrap", "html"],
-      score: 10,
-      experience: 2,
-      devCategory: "Consultant",
-      location: "Gandhinagar",
-      availability: 6,
-      costPerHour: 2000,
-      email: "sadsad@gmail.com",
-      phone: "911964656",
-      resume: "Submitted"
-    },
-    {
-      id: 2,
-      firstname: "Shubham",
-      lastname: "Singh",
-      skills: ["bootstrap", "html"],
-      score: 10,
-      experience: 2,
-      devCategory: "Consultant",
-      location: "Gandhinagar",
-      availability: 6,
-      costPerHour: 2000,
-      email: "sadsad@gmail.com",
-      phone: "911964656",
-      resume: "Submitted"
-    }
-  ],
+  developers: [],
   developer: null
 };
 
@@ -55,7 +24,8 @@ const developers = (state = initialState, action) => {
     case ActionTypes.GET_DEVELOPERS:
       return {
         ...state,
-        developers: [...state.developers]
+        developers: action.payload,
+        isLoading: false
       };
 
     case ActionTypes.GET_DEVELOPER:

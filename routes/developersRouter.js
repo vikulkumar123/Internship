@@ -7,7 +7,7 @@ var authenticate = require("../authenticate");
 
 developerRouter
   .route("/")
-  .get(authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
+  .get((req, res, next) => {
     console.log(req.query);
     req.query.isblacklisted = false;
     Developers.find(req.query)
@@ -49,10 +49,10 @@ developerRouter.post(
   (req, res, next) => {
     Developers.create(req.body)
       .then(
-        dish => {
+        developer => {
           res.statusCode = 200;
           res.setHeader("Content-Type", "application/json");
-          res.json(dish);
+          res.json(developer);
         },
         err => {
           next(err);

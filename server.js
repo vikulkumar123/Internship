@@ -5,7 +5,6 @@ var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
 var passport = require("passport");
 var config = require("./config");
-var index = require("./routes/index");
 var users = require("./routes/users");
 var developerRouter = require("./routes/developersRouter");
 
@@ -35,8 +34,7 @@ app.use(passport.initialize());
 app.use(express.static(path.join(__dirname, "public")));
 
 // Routes
-app.use("/", index);
-app.use("/users", users);
+app.use("/", users);
 app.use("/developers", developerRouter);
 
 // catch 404 and forward to error handler
@@ -52,7 +50,10 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render("error");
+  res.json({
+    message: err.message,
+    error: err
+  });
 });
 
 const port = process.env.PORT || 5000;

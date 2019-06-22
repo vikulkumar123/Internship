@@ -13,7 +13,7 @@ class Card extends Component {
     return (
       <div className="row">
         {this.props.developers.map(developer => (
-          <div className="col-md-3 col-sm-6 mb-4" key={developer.id}>
+          <div className="col-md-3 col-sm-6 mb-4" key={developer._id}>
             <div className="card">
               <div className="card-body">
                 <div className="card-image">
@@ -27,7 +27,7 @@ class Card extends Component {
                   <span className="mr-2">
                     {developer.firstname} {developer.lastname}
                   </span>
-                  <Link to="/edit">
+                  <Link to={`/edit/${developer._id}`}>
                     <FontAwesomeIcon icon={faEdit} />
                   </Link>
                 </div>

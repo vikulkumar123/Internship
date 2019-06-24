@@ -3,7 +3,7 @@ import "../style/dashboard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import Card from "./Card";
-import AuthNavbar from "./Navbar";
+import NavBar from "./Navbar";
 import { connect } from "react-redux";
 import {
   getDevelopers,
@@ -38,7 +38,7 @@ class Dashboard extends Component {
           return developer;
         }
       }
-      return 0;
+      return null;
     });
 
     this.setState({
@@ -55,7 +55,7 @@ class Dashboard extends Component {
   render() {
     return (
       <React.Fragment>
-        <AuthNavbar />
+        <NavBar />
         <div className="row ">
           <div className="col-md-8 offset-md-3 searchDiv">
             <div className="search-form">

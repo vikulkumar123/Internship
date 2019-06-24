@@ -11,7 +11,7 @@ developerRouter
     console.log(req.query);
     req.query.isblacklisted = false;
     req.query.archive = false;
-    Developers.find(req.query)
+    Developers.find({})
       .then(
         developers => {
           res.statusCode = 200;

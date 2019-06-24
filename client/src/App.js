@@ -6,7 +6,6 @@ import CreateDeveloper from "./components/CreateDevelpoer";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import EditDeveloper from "./components/EditDeveloper";
-import { loadUser } from "./redux/actions/authAction";
 import PrivateRoute from "./components/PrivateRoute";
 import jwt_decode from "jwt-decode";
 import { USER_LOADED } from "./redux/actions/actionTypes";

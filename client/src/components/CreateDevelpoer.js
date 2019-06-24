@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import AuthNavbar from "./AuthNavbar";
+import AuthNavbar from "./Navbar";
 import "../style/register.css";
 import { Form, Label, Input } from "reactstrap";
 import { connect } from "react-redux";
@@ -118,6 +118,8 @@ class ContactUs extends Component {
       github: "",
       linkedin: ""
     });
+
+    this.props.history.push("/dashboard");
   };
   handleBlur = e => {
     const { errors, ...inputs } = this.state;

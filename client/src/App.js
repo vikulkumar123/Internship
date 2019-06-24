@@ -7,19 +7,31 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 import EditDeveloper from "./components/EditDeveloper";
 import { loadUser } from "./redux/actions/authAction";
+import PrivateRoute from "./components/PrivateRoute";
+import jwt_decode from "jwt-decode";
+import { USER_LOADED } from "./redux/actions/actionTypes";
+
+if (localStorage.token) {
+  store.dispatch({
+    type: USER_LOADED,
+    payload: jwt_decode(localStorage.token)
+  });
+}
+
 class App extends Component {
-  componentDidMount() {
-    store.dispatch(loadUser());
-  }
   render() {
     return (
       <Provider store={store}>
         <BrowserRouter>
           <React.Fragment>
             <Route exact path="/" component={Login} />
-            <Route exact path="/dashboard" component={Dashboard} />
-            <Route exact path="/register" component={CreateDeveloper} />
-            <Route exact path="/edit/:developerId" component={EditDeveloper} />
+            <PrivateRoute exact path="/dashboard" component={Dashboard} />
+            <PrivateRoute exact path="/register" component={CreateDeveloper} />
+            <PrivateRoute
+              exact
+              path="/edit/:developerId"
+              component={EditDeveloper}
+            />
           </React.Fragment>
         </BrowserRouter>
       </Provider>

@@ -15,16 +15,16 @@ class Login extends Component {
     msg: null
   };
 
-  static propTypes = {
-    isAuthenticated: PropTypes.bool,
-    error: PropTypes.object.isRequired,
-    login: PropTypes.func.isRequired,
-    clearErrors: PropTypes.func.isRequired
-  };
+  componentDidMount() {
+    console.log(this.props.isAuthenticated);
+    if (this.props.isAuthenticated) {
+      this.props.history.push("/dashboard");
+    }
+  }
 
-  componentDidUpdate(prevprops) {
+  componentDidUpdate(prevProps) {
     const { error } = this.props;
-    if (error !== prevprops.error) {
+    if (error !== prevProps.error) {
       //check the register error
 
       if (error.id === "LOGIN_FAIL") {
@@ -58,7 +58,6 @@ class Login extends Component {
 
     // attemt to login
     this.props.login(user);
-
     this.props.history.push("/dashboard");
   };
   render() {
@@ -116,6 +115,13 @@ class Login extends Component {
     );
   }
 }
+
+Login.propTypes = {
+  isAuthenticated: PropTypes.bool,
+  error: PropTypes.object,
+  login: PropTypes.func.isRequired,
+  clearErrors: PropTypes.func.isRequired
+};
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,

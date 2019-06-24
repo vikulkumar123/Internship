@@ -3,7 +3,7 @@ import "../style/dashboard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import Card from "./Card";
-import AuthNavbar from "./AuthNavbar";
+import AuthNavbar from "./Navbar";
 import { connect } from "react-redux";
 import {
   getDevelopers,

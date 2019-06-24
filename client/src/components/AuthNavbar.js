@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Navbar, NavbarBrand, Nav, NavItem, NavLink } from "reactstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { NavLink as link } from "react-router-dom";
 import "../style/navbar.css";
 import image from "../images/create.png";
+import Logout from "./auth/Logout";
+
 export default class AuthNavbar extends Component {
   constructor(props) {
     super(props);
@@ -31,9 +31,7 @@ export default class AuthNavbar extends Component {
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink to="/logout" className="nav-link" tag={link}>
-                <FontAwesomeIcon icon={faSignOutAlt} />
-              </NavLink>
+              <Logout />
             </NavItem>
           </Nav>
         </Navbar>

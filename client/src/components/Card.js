@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import {
   archiveDeveloper,
   blacklistDeveloper
-} from "../redux/actions/actionCreator";
+} from "../redux/actions/developerAction";
 import BlacklistModal from "./BlacklistModal";
 
 class Card extends Component {

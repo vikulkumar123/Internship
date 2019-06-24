@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import {
   getDevelopers,
   archiveDeveloper
-} from "../redux/actions/actionCreator";
+} from "../redux/actions/developerAction";
 
 class Dashboard extends Component {
   constructor(props) {

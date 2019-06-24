@@ -3,7 +3,7 @@ import AuthNavbar from "./AuthNavbar";
 import "../style/register.css";
 import { Form, Label, Input } from "reactstrap";
 import { connect } from "react-redux";
-import { createDeveloper } from "../redux/actions/actionCreator";
+import { createDeveloper } from "../redux/actions/developerAction";
 import PropTypes from "prop-types";
 import * as EmailValidator from "email-validator";
 

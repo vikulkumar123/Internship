@@ -1,20 +1,66 @@
 import React, { Component } from "react";
 import image from "../../images/undraw_online_discussion_5wgl.svg";
 import "../../style/login.css";
-import NavBar from "../AuthNavbar";
+import NavBar from "../Navbar";
+import { Form, FormGroup, Alert, Label, Button } from "reactstrap";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { login } from "../../redux/actions/authAction";
+import { clearErrors } from "../../redux/actions/errorAction";
+
 class Login extends Component {
   state = {
     username: "",
-    password: ""
+    password: "",
+    msg: null
   };
 
-  handleChange = e => {
+  static propTypes = {
+    isAuthenticated: PropTypes.bool,
+    error: PropTypes.object.isRequired,
+    login: PropTypes.func.isRequired,
+    clearErrors: PropTypes.func.isRequired
+  };
+
+  componentDidUpdate(prevprops) {
+    const { error } = this.props;
+    if (error !== prevprops.error) {
+      //check the register error
+
+      if (error.id === "LOGIN_FAIL") {
+        this.setState({ msg: error.msg.msg });
+      } else {
+        this.setState({ msg: null });
+      }
+    }
+  }
+
+  toggle = () => {
+    // clear errors
+
+    this.props.clearErrors();
+  };
+
+  onChange = e => {
     this.setState({
-      username: this.state.username,
-      password: this.state.password
+      [e.target.id]: e.target.value
     });
   };
 
+  onSubmit = e => {
+    e.preventDefault();
+    const { email, password } = this.state;
+
+    const user = {
+      email,
+      password
+    };
+
+    // attemt to login
+    this.props.login(user);
+
+    this.props.history.push("/dashboard");
+  };
   render() {
     return (
       <React.Fragment>
@@ -30,29 +76,38 @@ class Login extends Component {
                 <p style={{ textAlign: "center" }}>
                   Fill in your email and password to proceed
                 </p>
-                <form className="form" onSubmit={this.handleLogin}>
-                  <label>Username</label>
-                  <input
-                    type="text"
-                    name="username"
-                    id="username"
-                    className="loginInput"
-                    placeholder="your@example.com"
-                    defaultValue={this.state.username}
-                  />
-                  <label>Password</label>
-                  <input
-                    type="password"
-                    name="password"
-                    id="password"
-                    className="loginInput"
-                    placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
-                    defaultValue={this.state.password}
-                  />
-                  <button type="submit" className="button button__accent">
-                    Log in
-                  </button>
-                </form>
+                {this.state.msg ? (
+                  <Alert color="danger">{this.state.msg} </Alert>
+                ) : null}
+                <Form className="form" onSubmit={this.onSubmit}>
+                  <FormGroup>
+                    <Label>Email</Label>
+                    <input
+                      type="email"
+                      name="email"
+                      id="email"
+                      className="loginInput"
+                      placeholder="xyz@example.com"
+                      onChange={this.onChange}
+                    />
+                    <Label>Password</Label>
+                    <input
+                      type="password"
+                      name="password"
+                      id="password"
+                      className="loginInput"
+                      onChange={this.onChange}
+                      placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
+                    />
+                    <Button
+                      type="submit"
+                      onClick={this.toggle}
+                      className="button button__accent"
+                    >
+                      Log in
+                    </Button>
+                  </FormGroup>
+                </Form>
               </div>
             </div>
           </div>
@@ -62,4 +117,15 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated,
+  error: state.eror
+});
+
+export default connect(
+  mapStateToProps,
+  {
+    login,
+    clearErrors
+  }
+)(Login);

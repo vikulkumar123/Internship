@@ -2,10 +2,9 @@ var createError = require("http-errors");
 var express = require("express");
 var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
-var passport = require("passport");
 var config = require("./config");
-var users = require("./routes/users");
-var developerRouter = require("./routes/developersRouter");
+var users = require("./routes/api/auth");
+var developerRouter = require("./routes/api/developersRouter");
 
 const url = config.mongoUrl;
 const connect = mongoose.connect(url, { useNewUrlParser: true });
@@ -22,18 +21,17 @@ connect.then(
 var app = express();
 app.set({ useFindAndModify: false });
 mongoose.set("useCreateIndex", true);
-
+mongoose.set("useFindAndModify", false);
 // Body Parser Middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Passport middleware
-app.use(passport.initialize());
 
 // Routes
-app.use("/api/", users);
+app.use("/api/auth", users);
 app.use("/api/developers", developerRouter);
-
+app.use("/api/users", require("./routes/api/users"));
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
@@ -52,6 +50,16 @@ app.use(function(err, req, res, next) {
     error: err
   });
 });
+
+// Serve static assets if in production
+if (process.env.NODE_ENV === "production") {
+  // Set a static folder
+  app.use(express.static("client/build"));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
 
 const port = process.env.PORT || 5000;
 

@@ -11,12 +11,10 @@ const developerSchema = new Schema(
       type: String,
       required: true
     },
-    skills: [
-      {
-        type: String,
-        default: ""
-      }
-    ],
+    skills: {
+      type: String,
+      default: ""
+    },
     score: {
       type: Number,
       required: true
@@ -28,12 +26,7 @@ const developerSchema = new Schema(
     },
     category: {
       type: String,
-      possibleValues: [
-        "Consultant",
-        "Freelancer",
-        "Inhouse team",
-        "Remote worker"
-      ]
+      default: ""
     },
     location: {
       type: String,
@@ -49,8 +42,7 @@ const developerSchema = new Schema(
     },
     contract: {
       type: String,
-      possibleValues: ["Fixed", "Hourly"],
-      default: "Fixed"
+      default: ""
     },
     reference: {
       type: String
@@ -64,11 +56,8 @@ const developerSchema = new Schema(
       type: String,
       required: true
     },
-    resume: {
-      type: String,
-      required: true
-    },
-    linkedIn: {
+
+    linkedin: {
       type: String,
       default: ""
     },
@@ -83,7 +72,7 @@ const developerSchema = new Schema(
     blacklistReason: {
       type: String,
       possibleValues: ["reason 1", "reason 2", "reason 3", "reason 4"],
-      required: true
+      default: "reason1"
     },
 
     blacklistNotes: {

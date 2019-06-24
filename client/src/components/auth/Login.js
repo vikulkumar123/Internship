@@ -1,9 +1,20 @@
 import React, { Component } from "react";
-import image from "../images/undraw_online_discussion_5wgl.svg";
-import "../style/login.css";
-import NavBar from "./AuthNavbar";
+import image from "../../images/undraw_online_discussion_5wgl.svg";
+import "../../style/login.css";
+import NavBar from "../AuthNavbar";
 class Login extends Component {
-  state = {};
+  state = {
+    username: "",
+    password: ""
+  };
+
+  handleChange = e => {
+    this.setState({
+      username: this.state.username,
+      password: this.state.password
+    });
+  };
+
   render() {
     return (
       <React.Fragment>
@@ -19,14 +30,15 @@ class Login extends Component {
                 <p style={{ textAlign: "center" }}>
                   Fill in your email and password to proceed
                 </p>
-                <form className="form">
-                  <label>Email</label>
+                <form className="form" onSubmit={this.handleLogin}>
+                  <label>Username</label>
                   <input
                     type="text"
-                    name="email"
-                    id="email"
+                    name="username"
+                    id="username"
                     className="loginInput"
                     placeholder="your@example.com"
+                    defaultValue={this.state.username}
                   />
                   <label>Password</label>
                   <input
@@ -35,7 +47,7 @@ class Login extends Component {
                     id="password"
                     className="loginInput"
                     placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
-                    autoComplete="off"
+                    defaultValue={this.state.password}
                   />
                   <button type="submit" className="button button__accent">
                     Log in

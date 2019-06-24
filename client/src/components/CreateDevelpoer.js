@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import AuthNavbar from "./AuthNavbar";
 import "../style/register.css";
-import { Form, Label, Input, FormFeedback } from "reactstrap";
+import { Form, Label, Input } from "reactstrap";
 import { connect } from "react-redux";
-import { createDeveloper } from "../redux/actions/developerAction";
+import { createDeveloper } from "../redux/actions/actionCreator";
 import PropTypes from "prop-types";
+import * as EmailValidator from "email-validator";
 
 class ContactUs extends Component {
   constructor(props) {
@@ -12,78 +13,90 @@ class ContactUs extends Component {
     this.state = {
       firstname: "",
       lastname: "",
+      skills: "",
+      score: 0,
+      experience: 0,
+      category: "Consultant",
+      location: "",
+      availability: 0,
+      costPerHour: 0,
+      contract: "Fixed",
+      reference: "",
       email: "",
       phone: "",
-      skills: "",
-      score: "",
-      experience: "",
-      category: "Consultant",
-      contract: "Fixed",
       github: "",
       linkedin: "",
-      location: "",
-      reference: "",
       archive: false,
       isBlacklist: false,
 
-      touched: {
-        firstname: false,
-        lastname: false,
-        email: false,
-        phone: false,
-        skills: false,
-        score: false,
-        experience: false,
-        location: false,
-        linkedin: false,
-        github: false,
-        reference: false
-      },
-      isEnable: true
+      errors: {
+        firstname: "",
+        lastname: "",
+        skills: "",
+        score: "",
+        experience: "",
+        location: "",
+        availability: "",
+        costPerHour: "",
+        reference: "",
+        email: "",
+        phone: "",
+        github: "",
+        linkedin: "",
+        disabled: false
+      }
     };
   }
 
   handleChange = e => {
     this.setState({
-      [e.target.name]: e.target.value,
-      isEnable: false
+      [e.target.id]: e.target.value
+    });
+  };
+
+  handleChecked = e => {
+    this.setState({
+      [e.target.name]: e.target.value
     });
   };
 
   handleSubmit = e => {
-    alert(JSON.stringify(this.state));
     e.preventDefault();
     const {
       firstname,
       lastname,
-      email,
-      phone,
       skills,
       score,
       experience,
       category,
+      location,
+      availability,
+      costPerHour,
       contract,
+      reference,
+      email,
+      phone,
       github,
       linkedin,
-      location,
-      reference,
       archive,
       isBlacklist
     } = this.state;
     this.props.createDeveloper({
       firstname,
       lastname,
-      email,
-      phone,
       skills,
       score,
       experience,
       category,
+      location,
+      availability,
+      costPerHour,
       contract,
+      reference,
+      email,
+      phone,
       github,
       linkedin,
-      location,
-      reference,
       archive,
       isBlacklist
     });
@@ -91,181 +104,123 @@ class ContactUs extends Component {
     this.setState({
       firstname: "",
       lastname: "",
+      skills: "",
+      score: 0,
+      experience: 0,
+      category: "Consultant",
+      location: "",
+      availability: 0,
+      costPerHour: 0,
+      contract: "Fixed",
+      reference: "",
       email: "",
       phone: "",
-      skills: "",
-      score: "",
-      experience: "",
-      category: "Consultant",
-      contract: "Fixed",
-      location: "",
-      linkedin: "",
       github: "",
-      reference: "",
-
-      touched: {
-        firstname: false,
-        lastname: false,
-        email: false,
-        phone: false,
-        skills: false,
-        score: false,
-        experience: false,
-        location: false,
-        linkedin: false,
-        github: false,
-        reference: false
-      },
-      isEnable: true
+      linkedin: ""
     });
   };
-  handleBlur = feild => event => {
-    this.setState({
-      touched: { ...this.state.touched, [feild]: true }
-    });
+  handleBlur = e => {
+    const { errors, ...inputs } = this.state;
+
+    this.validation(inputs);
   };
 
-  validate = (
+  validation = ({
     firstname,
     lastname,
-    email,
-    phone,
     skills,
     score,
     experience,
     location,
-    linkedin,
+    availability,
+    costPerHour,
+    reference,
+    email,
+    phone,
     github,
-    reference
-  ) => {
-    const error = {
+    linkedin
+  }) => {
+    const errors = {
       firstname: "",
       lastname: "",
-      email: "",
-      phone: "",
       skills: "",
       score: "",
       experience: "",
       location: "",
-      linkedin: "",
-      github: "",
+      availability: "",
+      costPerHour: "",
       reference: "",
-      isEnable: false
+      email: "",
+      phone: "",
+      github: "",
+      linkedin: ""
     };
-
-    if (this.state.touched.firstname && firstname.length < 3) {
-      error.firstname = "First Name must contains atleast 3 charchters";
-      error.isEnable = true;
-    } else if (this.state.touched.firstname && firstname.length > 50) {
-      error.firstname = "First Name can contains atmost 50 charchters";
-      error.isEnable = true;
-    }
-
-    if (this.state.touched.lastname && lastname.length < 3) {
-      error.lastname = "Last Name must contains atleast 3 charchters";
-      error.isEnable = true;
-    } else if (this.state.touched.lastname && lastname.length > 50) {
-      error.lastname = "lastname can contains atmost 50 charchters";
-      error.isEnable = true;
-    }
     const reg = /^\d+$/;
-    if (this.state.touched.phone && !reg.test(phone)) {
-      error.phone = " Phone number should contains numeric value only";
-      error.isEnable = true;
-    } else if (this.state.touched.phone && phone.length < 8) {
-      error.phone = " Phone number should contains atleast 8 number.";
-      error.isEnable = true;
-    }
-    // eslint-disable-next-line
-    const filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-    if (this.state.touched.email && !filter.test(email)) {
-      error.email = "Please provide a valid email address";
-    }
-    if (this.state.touched.skills && skills.length < 1) {
-      error.skills = "Skill field can not be empty.";
-      error.isEnable = true;
-    }
-    if (this.state.touched.score && score.length < 1) {
-      error.score = "Score Field cannot be empty.";
-      error.isEnable = true;
-    } else if (parseInt(score) < 0) {
-      error.score = "Score cannot be negative. Please provide a valid Score.";
-      error.isEnable = true;
-    }
-    if (this.state.touched.experience && experience.length < 1) {
-      error.experience = "Experience Field cannot be empty.";
-      error.isEnable = true;
-    } else if (parseInt(experience) < 0) {
-      error.experience =
-        "Experience cannot be negative. Please enter correctly!";
-      error.isEnable = true;
-    }
-    if (this.state.touched.location && location.length < 1) {
-      error.location = "Location Field cannot be empty.";
-      error.isEnable = true;
-    }
-
     const regexpUrl = /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/;
-
-    if (this.state.touched.linkedin && linkedin.length < 1) {
-      error.linkedin = "Linkedin profile field can't be empty.";
-      error.isEnable = true;
-    } else if (this.state.touched.linkedin && !regexpUrl.test(linkedin)) {
-      error.linkedin = "Please provide a valid Linkedin profile URL.";
-      error.isEnable = true;
+    if (firstname.length === 0) {
+      errors.firstname = "First Name can not be empty.";
+      errors.disabled = true;
+    } else if (firstname.length > 50) {
+      errors.firstname = "First Name can contains atmost 50 charchters";
+      errors.disabled = true;
+    } else if (lastname.length === 0) {
+      errors.lastname = "Last Name can not be empty.";
+      errors.disabled = true;
+    } else if (lastname.length > 20) {
+      errors.lastname = "lastname can contains atmost 20 charchters";
+      errors.disabled = true;
+    } else if (!EmailValidator.validate(email) || email.length === 0) {
+      errors.email = "Please enter valid e-mail address";
+      errors.disabled = true;
+    } else if (!reg.test(phone)) {
+      errors.phone = " Phone number should contains numeric value only";
+      errors.disabled = true;
+    } else if (phone.length < 10 && phone.length > 10) {
+      errors.phone = " Please enter a valid phone number.";
+      errors.disabled = true;
+    } else if (skills.length === 0) {
+      errors.skills = "Please enter atleast one skill";
+      errors.disabled = true;
+    } else if (score < 1) {
+      errors.score = "Please enter a valid score";
+      errors.disabled = true;
+    } else if (experience < 1) {
+      errors.experience = "Please enter your experience";
+      errors.disabled = true;
+    } else if (availability < 1) {
+      errors.availability = "Please enter a valid input.";
+      errors.disabled = true;
+    } else if (costPerHour < 0) {
+      errors.costPerHour = "Please enter a valid amount";
+      errors.disabled = true;
+    } else if (location.length < 2) {
+      errors.location = "Please enter a valid location!";
+      errors.disabled = true;
+    } else if (reference.length < 1) {
+      errors.reference = "Please provide a valid Reference.";
+      errors.disabled = true;
+    } else if (linkedin.length < 1) {
+      errors.linkedin = "Linkedin profile field can't be empty.";
+      errors.disabled = true;
+    } else if (!regexpUrl.test(linkedin)) {
+      errors.linkedin = "Please provide a valid Linkedin profile URL.";
+      errors.disabled = true;
+    } else if (!regexpUrl.test(github)) {
+      errors.github = "Please provide a valid Github profile URL.";
+      errors.github = true;
+    } else if (github.length < 1) {
+      errors.github = "Github Profile can't be empty..";
+      errors.disabled = true;
     }
+    this.setState({ errors });
 
-    if (this.state.touched.github && github.length < 1) {
-      error.github = "Github Profile can't be empty..";
-      error.isEnable = true;
-    } else if (this.state.touched.github && !regexpUrl.test(github)) {
-      error.github = "Please provide a valid Github profile URL.";
-      error.isEnable = true;
-    }
-
-    if (this.state.touched.reference && reference.length < 1) {
-      error.reference = "Please provide a valid Reference.";
-      error.isEnable = true;
-    }
-
-    return error;
+    return errors;
   };
 
   render() {
-    const errors = this.validate(
-      this.state.firstname,
-      this.state.lastname,
-      this.state.email,
-      this.state.phone,
-      this.state.skills,
-      this.state.score,
-      this.state.experience,
-      this.state.location,
-      this.state.linkedin,
-      this.state.github,
-      this.state.reference
-    );
-    const isEnable =
-      errors.isEnable ||
-      !(
-        this.state.touched.firstname &&
-        this.state.touched.lastname &&
-        this.state.touched.email &&
-        this.state.touched.phone &&
-        this.state.touched.skills &&
-        this.state.touched.score &&
-        this.state.touched.experience &&
-        this.state.touched.location &&
-        this.state.touched.github &&
-        this.state.touched.reference &&
-        this.state.touched.linkedin
-      ) ||
-      this.state.isEnable;
-
     return (
       <React.Fragment>
         <AuthNavbar />
-
         <section className="section">
           <div className="container">
             <h3>Create Developer Profile</h3>
@@ -285,15 +240,12 @@ class ContactUs extends Component {
                           className="form-control"
                           placeholder="Please enter firstname"
                           value={this.state.firstname}
-                          valid={
-                            errors.firstname === "" &&
-                            this.state.touched.firstname
-                          }
-                          invalid={errors.firstname !== ""}
                           onChange={this.handleChange}
-                          onBlur={this.handleBlur("firstname")}
+                          onBlur={this.handleBlur}
                         />
-                        <FormFeedback>{errors.firstname}</FormFeedback>
+                        <p className="text-danger">
+                          {this.state.errors.firstname}
+                        </p>
                       </div>
                     </div>
                     <div className="col-md-6 padding">
@@ -308,15 +260,12 @@ class ContactUs extends Component {
                           className="form-control"
                           placeholder="Please enter Surname "
                           value={this.state.lastname}
-                          valid={
-                            errors.lastname === "" &&
-                            this.state.touched.lastname
-                          }
-                          invalid={errors.lastname !== ""}
                           onChange={this.handleChange}
-                          onBlur={this.handleBlur("lastname")}
+                          onBlur={this.handleBlur}
                         />
-                        <FormFeedback>{errors.lastname}</FormFeedback>
+                        <p className="text-danger">
+                          {this.state.errors.lastname}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -332,12 +281,10 @@ class ContactUs extends Component {
                       className="form-control"
                       placeholder="Please enter Email *"
                       value={this.state.email}
-                      valid={errors.email === "" && this.state.touched.email}
-                      invalid={errors.email !== ""}
                       onChange={this.handleChange}
-                      onBlur={this.handleBlur("email")}
+                      onBlur={this.handleBlur}
                     />
-                    <FormFeedback>{errors.email}</FormFeedback>
+                    <p className="text-danger">{this.state.errors.email}</p>
                   </div>
 
                   {/* Phone Number */}
@@ -353,12 +300,10 @@ class ContactUs extends Component {
                       className="form-control"
                       placeholder="Please enter your phone number *"
                       value={this.state.phone}
-                      valid={errors.phone === "" && this.state.touched.phone}
-                      invalid={errors.phone !== ""}
                       onChange={this.handleChange}
-                      onBlur={this.handleBlur("phone")}
+                      onBlur={this.handleBlur}
                     />
-                    <FormFeedback>{errors.phone}</FormFeedback>
+                    <p className="text-danger">{this.state.errors.phone}</p>
                   </div>
 
                   {/* Skills */}
@@ -368,23 +313,21 @@ class ContactUs extends Component {
                     </label>
                     <Input
                       id="skills"
-                      type="string"
+                      type="text"
                       name="skills"
                       className="form-control"
                       placeholder="Please enter skills *"
                       value={this.state.skills}
-                      valid={errors.skills === "" && this.state.touched.skills}
-                      invalid={errors.skills !== ""}
                       onChange={this.handleChange}
-                      onBlur={this.handleBlur("skills")}
+                      onBlur={this.handleBlur}
                     />
-                    <FormFeedback>{errors.skills}</FormFeedback>
+                    <p className="text-danger">{this.state.errors.skills}</p>
                   </div>
 
                   {/* Score & Experience */}
 
                   <div className="row">
-                    <div className="col-md-6 padding">
+                    <div className="col-md-3 padding">
                       <div className="form-group">
                         <label htmlFor="score" className="label">
                           Score *
@@ -396,18 +339,14 @@ class ContactUs extends Component {
                           className="form-control"
                           placeholder="Please enter score *"
                           value={this.state.score}
-                          valid={
-                            errors.score === "" && this.state.touched.score
-                          }
-                          invalid={errors.score !== ""}
                           onChange={this.handleChange}
-                          onBlur={this.handleBlur("score")}
+                          onBlur={this.handleBlur}
                         />
-                        <FormFeedback className="">{errors.score}</FormFeedback>
+                        <p className="text-danger">{this.state.errors.score}</p>
                       </div>
                     </div>
 
-                    <div className="col-md-6 padding">
+                    <div className="col-md-3 padding">
                       <div className="form-group">
                         <label htmlFor="experience" className="label">
                           Experience *
@@ -419,15 +358,52 @@ class ContactUs extends Component {
                           className="form-control"
                           placeholder="Please enter experience *"
                           value={this.state.experience}
-                          valid={
-                            errors.experience === "" &&
-                            this.state.touched.experience
-                          }
-                          invalid={errors.experience !== ""}
                           onChange={this.handleChange}
-                          onBlur={this.handleBlur("experience")}
+                          onBlur={this.handleBlur}
                         />
-                        <FormFeedback>{errors.experience}</FormFeedback>
+                        <p className="text-danger">
+                          {this.state.errors.experience}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="col-md-3 padding">
+                      <div className="form-group">
+                        <label htmlFor="availability" className="label">
+                          Availability *
+                        </label>
+                        <Input
+                          id="availability"
+                          type="number"
+                          name="availability"
+                          className="form-control"
+                          placeholder="Please enter availability *"
+                          value={this.state.availability}
+                          onChange={this.handleChange}
+                          onBlur={this.handleBlur}
+                        />
+                        <p className="text-danger">
+                          {this.state.errors.availability}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="col-md-3 padding">
+                      <div className="form-group">
+                        <label htmlFor="costPerHour" className="label">
+                          Cost *
+                        </label>
+                        <Input
+                          id="costPerHour"
+                          type="number"
+                          name="costPerHour"
+                          className="form-control"
+                          placeholder="Please enter score *"
+                          value={this.state.costPerHour}
+                          onChange={this.handleChange}
+                          onBlur={this.handleBlur}
+                        />
+                        <p className="text-danger">
+                          {this.state.errors.costPerHour}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -443,13 +419,12 @@ class ContactUs extends Component {
                         <div className="row">
                           <div className="col-md-3 paddingRadio">
                             <input
-                              id="category"
+                              id="consultant"
                               type="radio"
                               name="category"
                               className="form-control"
+                              onChange={this.handleChecked}
                               value="Consultant"
-                              onChange={this.handleChange}
-                              checked={this.state.category === "Consultant"}
                             />
                           </div>
                           <div className="col-md-9 paddingRadio">
@@ -462,13 +437,12 @@ class ContactUs extends Component {
                         <div className="row">
                           <div className="col-md-3 paddingRadio">
                             <input
-                              id="category"
+                              id="freelancer"
                               type="radio"
                               name="category"
                               className="form-control"
+                              onChange={this.handleChecked}
                               value="Freelancer"
-                              onChange={this.handleChange}
-                              checked={this.state.category === "Freelancer"}
                             />
                           </div>
                           <div className="col-md-9 paddingRadio">
@@ -480,13 +454,12 @@ class ContactUs extends Component {
                         <div className="row">
                           <div className="col-md-3 paddingRadio">
                             <input
-                              id="category"
+                              id="Inhouseteam"
                               type="radio"
                               name="category"
                               className="form-control"
-                              value="InhouseTeam"
-                              onChange={this.handleChange}
-                              checked={this.state.category === "InhouseTeam"}
+                              value="Inhouse team"
+                              onChange={this.handleChecked}
                             />
                           </div>
                           <div className="col-md-9 paddingRadio">
@@ -499,13 +472,12 @@ class ContactUs extends Component {
                         <div className="row">
                           <div className="col-md-3 paddingRadio">
                             <input
-                              id="category"
+                              id="Remoteworker"
                               type="radio"
                               name="category"
                               className="form-control"
-                              value="RemoteWorker"
-                              onChange={this.handleChange}
-                              checked={this.state.category === "RemoteWorker"}
+                              value="Remote worker"
+                              onChange={this.handleChecked}
                             />
                           </div>
                           <div className="col-md-9 paddingRadio">
@@ -514,7 +486,6 @@ class ContactUs extends Component {
                         </div>
                       </div>
                     </div>
-                    <div>{errors.category}</div>
                   </div>
 
                   {/* Location and Reference */}
@@ -532,15 +503,12 @@ class ContactUs extends Component {
                           className="form-control"
                           placeholder="Please enter location *"
                           value={this.state.location}
-                          valid={
-                            errors.location === "" &&
-                            this.state.touched.location
-                          }
-                          invalid={errors.location !== ""}
                           onChange={this.handleChange}
-                          onBlur={this.handleBlur("location")}
+                          onBlur={this.handleBlur}
                         />
-                        <FormFeedback>{errors.location}</FormFeedback>
+                        <p className="text-danger">
+                          {this.state.errors.location}
+                        </p>
                       </div>
                     </div>
                     <div className="col-md-6 padding">
@@ -555,15 +523,12 @@ class ContactUs extends Component {
                           className="form-control"
                           placeholder="Enter reference*"
                           value={this.state.reference}
-                          valid={
-                            errors.reference === "" &&
-                            this.state.touched.reference
-                          }
-                          invalid={errors.reference !== ""}
                           onChange={this.handleChange}
-                          onBlur={this.handleBlur("reference")}
+                          onBlur={this.handleBlur}
                         />
-                        <FormFeedback>{errors.reference}</FormFeedback>
+                        <p className="text-danger">
+                          {this.state.errors.reference}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -578,13 +543,12 @@ class ContactUs extends Component {
                         <div className="row">
                           <div className="col-md-3 paddingRadio">
                             <input
-                              id="contract"
+                              id="fixed"
                               type="radio"
                               name="contract"
                               className="form-control"
                               value="Fixed"
-                              onChange={this.handleChange}
-                              checked={this.state.contract === "Fixed"}
+                              onChange={this.handleChecked}
                             />
                           </div>
                           <div className="col-md-9 paddingRadio">
@@ -596,13 +560,12 @@ class ContactUs extends Component {
                         <div className="row">
                           <div className="col-md-3 paddingRadio">
                             <input
-                              id="contract"
+                              id="hourly"
                               type="radio"
                               name="contract"
                               className="form-control"
                               value="Hourly"
-                              onChange={this.handleChange}
-                              checked={this.state.contract === "Hourly"}
+                              onChange={this.handleChecked}
                             />
                           </div>
                           <div className="col-md-9 paddingRadio">
@@ -624,12 +587,10 @@ class ContactUs extends Component {
                       className="form-control"
                       placeholder="Please enter your Github link *"
                       value={this.state.github}
-                      valid={errors.github === "" && this.state.touched.github}
-                      invalid={errors.github !== ""}
                       onChange={this.handleChange}
-                      onBlur={this.handleBlur("github")}
+                      onBlur={this.handleBlur}
                     />
-                    <FormFeedback>{errors.github}</FormFeedback>
+                    <p className="text-danger">{this.state.errors.github}</p>
                   </div>
 
                   {/* LinkedIn Link */}
@@ -644,18 +605,18 @@ class ContactUs extends Component {
                       className="form-control"
                       placeholder="Please enter your LinkedIn link *"
                       value={this.state.linkedin}
-                      valid={
-                        errors.linkedin === "" && this.state.touched.linkedin
-                      }
-                      invalid={errors.linkedin !== ""}
                       onChange={this.handleChange}
-                      onBlur={this.handleBlur("linkedin")}
+                      onBlur={this.handleBlur}
                     />
-                    <FormFeedback>{errors.linkedin}</FormFeedback>
+                    <p className="text-danger">{this.state.errors.linkedin}</p>
                   </div>
 
                   <div className="form-submit mt-5">
-                    <button className="btn3" type="submit" disabled={isEnable}>
+                    <button
+                      className="btn3"
+                      type="submit"
+                      disabled={this.state.errors.disabled}
+                    >
                       Send
                     </button>
                     <div id="msgSubmit" className="h3 text-center hidden" />

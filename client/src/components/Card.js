@@ -7,17 +7,32 @@ import { connect } from "react-redux";
 import {
   archiveDeveloper,
   blacklistDeveloper
-} from "../redux/actions/developerAction";
+} from "../redux/actions/actionCreator";
+import BlacklistModal from "./BlacklistModal";
+
 class Card extends Component {
   constructor(props) {
     super(props);
     this.state = {
       archive: true,
-      isBlacklisted: true
+      isBlacklisted: true,
+      isModalOpen: false
     };
   }
+
+  toggle = () => {
+    this.setState({
+      isModalOpen: !this.state.isModalOpen
+    });
+  };
+
+  showModal = () => {
+    this.setState({
+      isModalOpen: true
+    });
+  };
+
   render() {
-    console.log(this.props.developers);
     return (
       <div className="row">
         {this.props.developers.map(developer => (
@@ -55,6 +70,7 @@ class Card extends Component {
                     className="actionButton"
                     onClick={() =>
                       this.props.archiveDeveloper(
+                        developer._id,
                         (developer.archive = this.state.archive)
                       )
                     }
@@ -64,16 +80,14 @@ class Card extends Component {
                 </div>
                 <div className="seperater col-1" />
                 <div className="blacklistButton col-5">
-                  <button
-                    className="actionButton"
-                    onClick={() =>
-                      this.props.blacklistDeveloper(
-                        (developer.isBlacklisted = this.state.isBlacklisted)
-                      )
-                    }
-                  >
+                  <button className="actionButton" onClick={this.showModal}>
                     Blacklist
                   </button>
+                  {this.state.isModalOpen ? (
+                    <BlacklistModal toggle={this.toggle} />
+                  ) : (
+                    ""
+                  )}
                 </div>
               </div>
             </div>

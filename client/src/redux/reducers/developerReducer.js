@@ -16,6 +16,7 @@ const developers = (state = initialState, action) => {
       };
 
     case ActionTypes.CREATE_DEVELOPER:
+      console.log(" Developer", action.payload);
       return {
         ...state,
         developers: [action.payload, ...state.developers]

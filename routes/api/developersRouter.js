@@ -4,6 +4,25 @@ const Developers = require("../../models/developers");
 const auth = require("../../middleware/auth");
 const developerRouter = express.Router();
 developerRouter.use(bodyPerser.json());
+const multer = require("multer");
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "/public/images");
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname + "-" + Date.now());
+  }
+});
+
+const fileFilter = (req, file, cb) => {
+  if (!file.originalname.match(/\.(pdf)$/)) {
+    cb(new Error("You can upload only pdf!"), false);
+  }
+  cb(null, true);
+};
+
+const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 developerRouter
   .route("/")
@@ -131,7 +150,9 @@ developerRouter.route("/dashboard/:developerId").put(auth, (req, res, next) => {
     {
       $set: {
         archive: req.body.archive,
-        isblacklisted: req.body.isblacklisted
+        isblacklisted: req.body.isblacklisted,
+        reason: req.body.reason,
+        note: req.body.note
       }
     },
     { new: true }

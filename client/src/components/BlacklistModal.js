@@ -11,14 +11,13 @@ class BlacklistModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      reason: "",
+      reason: "Reason1",
       note: "",
       isblacklisted: true
     };
   }
 
   componentDidMount() {
-    console.log(this.props.id);
     this.props.getDeveloper(this.props.id);
   }
 
@@ -28,11 +27,17 @@ class BlacklistModal extends Component {
     });
   };
 
+  handleOptionChange = e => {
+    this.setState({
+      reason: e.target.value
+    });
+  };
+
   handleSubmit = e => {
     e.preventDefault();
     this.props.blacklistDeveloper(this.props.id, this.state);
     this.setState({
-      reason: "",
+      reason: "Reason1",
       note: ""
     });
   };
@@ -53,19 +58,84 @@ class BlacklistModal extends Component {
                 </div>
                 <div className="dialog-content">
                   <Form className="form" onSubmit={this.handleSubmit}>
+                    <label htmlFor="category" className="label">
+                      Reason for blacklist*
+                    </label>
                     <div className="form-group">
-                      <Label htmlFor="reason" className="label">
-                        Reason *
-                      </Label>
-                      <Input
-                        id="reason"
-                        type="text"
-                        name="reason"
-                        className="form-control"
-                        placeholder="Please reason"
-                        value={this.state.reason}
-                        onChange={this.handleChange}
-                      />
+                      <div className="row">
+                        <div className="col-md-3 paddingRadio">
+                          <div className="row">
+                            <div className="col-md-3 paddingRadio">
+                              <input
+                                id="reason1"
+                                type="radio"
+                                name="reason"
+                                className="form-control"
+                                value="Reason1"
+                                checked={this.state.reason === "Reason1"}
+                                onChange={this.handleOptionChange}
+                              />
+                            </div>
+                            <div className="col-md-9 paddingRadio">
+                              <span>Reason1</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-md-3 paddingRadio">
+                          <div className="row">
+                            <div className="col-md-3 paddingRadio">
+                              <input
+                                id="reason2"
+                                type="radio"
+                                name="reason"
+                                className="form-control"
+                                value="Reason2"
+                                checked={this.state.reason === "Reason2"}
+                                onChange={this.handleOptionChange}
+                              />
+                            </div>
+                            <div className="col-md-9 paddingRadio">
+                              <span>Reason2</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-md-3 paddingRadio">
+                          <div className="row">
+                            <div className="col-md-3 paddingRadio">
+                              <input
+                                id="reason3"
+                                type="radio"
+                                name="reason"
+                                className="form-control"
+                                value="Reason3"
+                                checked={this.state.reason === "Reason3"}
+                                onChange={this.handleOptionChange}
+                              />
+                            </div>
+                            <div className="col-md-9 paddingRadio">
+                              <span>Reason3</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-md-3 paddingRadio">
+                          <div className="row">
+                            <div className="col-md-3 paddingRadio">
+                              <input
+                                id="reason4"
+                                type="radio"
+                                name="reason"
+                                className="form-control"
+                                value="Reason4"
+                                checked={this.state.reason === "Reason4"}
+                                onChange={this.handleOptionChange}
+                              />
+                            </div>
+                            <div className="col-md-9 paddingRadio">
+                              <span>Reason4</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                     <div className="form-group">
                       <Label htmlFor="note" className="label">

@@ -86,7 +86,7 @@ const developerSchema = new Schema(
     },
     resume: {
       type: String,
-      required: true
+      required: false
     }
   },
 

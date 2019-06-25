@@ -37,6 +37,7 @@ export const createDeveloper = developer => (dispatch, getState) => {
   axios
     .post("/api/developers/register", developer, tokenConfig(getState))
     .then(res => {
+      console.log(res.data);
       dispatch({
         type: ActionTypes.CREATE_DEVELOPER,
         payload: res.data
@@ -50,6 +51,7 @@ export const createDeveloper = developer => (dispatch, getState) => {
 export const editDeveloper = (id, developer) => (dispatch, getState) => {
   axios
     .put(`/api/developers/edit/${id}`, developer, tokenConfig(getState))
+
     .then(res => {
       dispatch({
         type: ActionTypes.EDIT_DEVELOPER,
@@ -82,9 +84,11 @@ export const archiveDeveloper = (id, archive) => (dispatch, getState) => {
 };
 
 export const blacklistDeveloper = (id, data) => (dispatch, getState) => {
+  // console.log("Dispatch blacklist", data);
   axios
     .put(`/api/developers/dashboard/${id}`, data, tokenConfig(getState))
     .then(res => {
+      // console.log("blacklist", res.data);
       dispatch({
         type: ActionTypes.BLACKLIST_DEVELOPER,
         payload: res.data

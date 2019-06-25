@@ -16,11 +16,11 @@ class ContactUs extends Component {
       skills: "",
       score: 0,
       experience: 0,
-      category: "",
+      category: "Consultant",
       location: "",
       availability: 0,
       costPerHour: 0,
-      contract: "",
+      contract: "Fixed",
       reference: "",
       email: "",
       phone: "",
@@ -54,14 +54,14 @@ class ContactUs extends Component {
     });
   };
 
-  handleChecked = e => {
+  handleOptionChange = e => {
     this.setState({
-      [e.target.name]: e.target.value
+      category: e.target.value
     });
   };
-
   handleSubmit = e => {
     e.preventDefault();
+    console.log(this.state.category);
     const {
       firstname,
       lastname,
@@ -189,7 +189,7 @@ class ContactUs extends Component {
     } else if (experience < 1) {
       errors.experience = "Please enter your experience";
       errors.disabled = true;
-    } else if (availability < 1) {
+    } else if (availability < 1 || availability > 10) {
       errors.availability = "Please enter a valid input.";
       errors.disabled = true;
     } else if (costPerHour < 0) {
@@ -204,10 +204,10 @@ class ContactUs extends Component {
     } else if (linkedin.length < 1) {
       errors.linkedin = "Linkedin profile field can't be empty.";
       errors.disabled = true;
-    } else if (!regexpUrl.test(github) && github.length === 0) {
+    } else if (!regexpUrl.test(github) || github.length === 0) {
       errors.github = "Please provide a valid Github profile URL.";
       errors.github = true;
-    } else if (!regexpUrl.test(linkedin) && linkedin.length === 0) {
+    } else if (!regexpUrl.test(linkedin) || linkedin.length === 0) {
       errors.linkedin = "Please provide a valid Linkedin profile URL.";
       errors.disabled = true;
     }
@@ -223,12 +223,7 @@ class ContactUs extends Component {
         <section className="section">
           <div className="container">
             <h3>Create Developer Profile</h3>
-            <Form
-              action="/upload"
-              className="form"
-              onSubmit={this.handleSubmit}
-              encType="multipart/form-data"
-            >
+            <Form className="form" onSubmit={this.handleSubmit}>
               <div className="row">
                 <div className="col-md-6 padding  offset-md-3">
                   <div className="row">
@@ -423,8 +418,9 @@ class ContactUs extends Component {
                               type="radio"
                               name="category"
                               className="form-control"
-                              onChange={this.handleChecked}
                               value="Consultant"
+                              checked={this.state.category === "Consultant"}
+                              onChange={this.handleOptionChange}
                             />
                           </div>
                           <div className="col-md-9 paddingRadio">
@@ -441,8 +437,9 @@ class ContactUs extends Component {
                               type="radio"
                               name="category"
                               className="form-control"
-                              onChange={this.handleChecked}
                               value="Freelancer"
+                              checked={this.state.category === "Freelancer"}
+                              onChange={this.handleOptionChange}
                             />
                           </div>
                           <div className="col-md-9 paddingRadio">
@@ -459,7 +456,8 @@ class ContactUs extends Component {
                               name="category"
                               className="form-control"
                               value="Inhouse team"
-                              onChange={this.handleChecked}
+                              checked={this.state.category === "Inhouse team"}
+                              onChange={this.handleOptionChange}
                             />
                           </div>
                           <div className="col-md-9 paddingRadio">
@@ -477,7 +475,8 @@ class ContactUs extends Component {
                               name="category"
                               className="form-control"
                               value="Remote worker"
-                              onChange={this.handleChecked}
+                              checked={this.state.category === "Remote worker"}
+                              onChange={this.handleOptionChange}
                             />
                           </div>
                           <div className="col-md-9 paddingRadio">
@@ -548,7 +547,8 @@ class ContactUs extends Component {
                               name="contract"
                               className="form-control"
                               value="Fixed"
-                              onChange={this.handleChecked}
+                              checked={this.state.category === "Fixed"}
+                              onChange={this.handleOptionChange}
                             />
                           </div>
                           <div className="col-md-9 paddingRadio">
@@ -565,7 +565,8 @@ class ContactUs extends Component {
                               name="contract"
                               className="form-control"
                               value="Hourly"
-                              onChange={this.handleChecked}
+                              checked={this.state.category === "Hourly"}
+                              onChange={this.handleOptionChange}
                             />
                           </div>
                           <div className="col-md-9 paddingRadio">

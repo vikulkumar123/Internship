@@ -64,9 +64,9 @@ class EditDeveloper extends Component {
     });
   };
 
-  handleChecked = e => {
+  handleOptionChange = e => {
     this.setState({
-      [e.target.name]: e.target.value
+      category: e.target.value
     });
   };
 
@@ -423,9 +423,14 @@ class EditDeveloper extends Component {
                               name="category"
                               className="form-control"
                               checked={
-                                this.props.developer.developer ? true : false
+                                this.props.developer.developer &&
+                                this.props.developer.developer.category ===
+                                  "Consultant"
+                                  ? true
+                                  : false
                               }
-                              onChange={this.handleChecked}
+                              value="Consultant"
+                              onChange={this.handleOptionChange}
                             />
                           </div>
                           <div className="col-md-9 paddingRadio">
@@ -443,9 +448,14 @@ class EditDeveloper extends Component {
                               name="category"
                               className="form-control"
                               checked={
-                                this.props.developer.developer ? true : false
+                                this.props.developer.developer &&
+                                this.props.developer.developer.category ===
+                                  "Freelancer"
+                                  ? true
+                                  : false
                               }
-                              onChange={this.handleChecked}
+                              value="Freelancer"
+                              onChange={this.handleOptionChange}
                             />
                           </div>
                           <div className="col-md-9 paddingRadio">
@@ -462,9 +472,14 @@ class EditDeveloper extends Component {
                               name="category"
                               className="form-control"
                               checked={
-                                this.props.developer.developer ? true : false
+                                this.props.developer.developer &&
+                                this.props.developer.developer.category ===
+                                  "Inhouse team"
+                                  ? true
+                                  : false
                               }
-                              onChange={this.handleChecked}
+                              value="Inhouse team"
+                              onChange={this.handleOptionChange}
                             />
                           </div>
                           <div className="col-md-9 paddingRadio">
@@ -482,9 +497,14 @@ class EditDeveloper extends Component {
                               name="category"
                               className="form-control"
                               checked={
-                                this.props.developer.developer ? true : false
+                                this.props.developer.developer &&
+                                this.props.developer.developer.category ===
+                                  "Remote worker"
+                                  ? true
+                                  : false
                               }
-                              onChange={this.handleChecked}
+                              value="Remote worker"
+                              onChange={this.handleOptionChange}
                             />
                           </div>
                           <div className="col-md-9 paddingRadio">
@@ -564,11 +584,13 @@ class EditDeveloper extends Component {
                               className="form-control"
                               checked={
                                 this.props.developer.developer &&
-                                this.props.developer.developer.contract
+                                this.props.developer.developer.contract ===
+                                  "Fixed"
                                   ? true
                                   : false
                               }
-                              onChange={this.handleChecked}
+                              value="Fixed"
+                              onChange={this.handleOptionChange}
                             />
                           </div>
                           <div className="col-md-9 paddingRadio">
@@ -586,11 +608,13 @@ class EditDeveloper extends Component {
                               className="form-control"
                               checked={
                                 this.props.developer.developer &&
-                                this.props.developer.developer.contract
+                                this.props.developer.developer.contract ===
+                                  "Hourly"
                                   ? true
                                   : false
                               }
-                              onChange={this.handleChecked}
+                              value="Hourly"
+                              onChange={this.handleOptionChange}
                             />
                           </div>
                           <div className="col-md-9 paddingRadio">

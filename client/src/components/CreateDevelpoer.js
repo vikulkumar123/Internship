@@ -577,6 +577,47 @@ class ContactUs extends Component {
                       </div>
                     </div>
                   </div>
+
+                  {/* Upload Image */}
+                  <div className="form-group label-floating">
+                    <div className="row">
+                      <div className="col-md-6 padding">
+                        <label htmlFor="image" className="label">
+                          Upload Image *
+                        </label>
+                        <div className="form-group">
+                          <Input
+                            type="file"
+                            name="image"
+                            id="image"
+                            className="form-control"
+                            // onChange={this.handleChange}
+                          />
+                          <p className="text-danger">
+                            {/* {this.state.errors.image} */}
+                          </p>
+                        </div>
+                      </div>
+                      {/* Upload Resume */}
+                      <div className="col-md-6 padding">
+                        <label htmlFor="resume" className="label">
+                          Upload Resume *
+                        </label>
+                        <div className="form-group">
+                          <Input
+                            id="resume"
+                            type="file"
+                            name="resume"
+                            className="form-control"
+                            // onChange={this.handleChange}
+                          />
+                          <p className="text-danger">
+                            {/* {this.state.errors.resume} */}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   {/* Git Link */}
                   <div className="form-group label-floating">
                     <label htmlFor="github" className="label">

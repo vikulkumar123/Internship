@@ -22,12 +22,24 @@
   margin-top: 10px;
 }
 
-.actionButton {
+.cardActionButton {
   color: rgb(154, 154, 154);
   font: 400 12px/20px Roboto, "Helvetica Neue", sans-serif;
   letter-spacing: 0.3157px;
   border: none;
   text-decoration: none !important;
+}
+.cardActionButton:hover {
+  cursor: pointer;
+}
+
+.cardActionButton:disabled {
+  cursor: not-allowed;
+  color: rgb(154, 154, 154);
+}
+
+.disabledEditActionButton {
+  cursor: not-allowed;
 }
 
 .cardFooter {

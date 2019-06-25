@@ -42,9 +42,19 @@ class Card extends Component {
                   <span className="mr-2">
                     {developer.firstname} {developer.lastname}
                   </span>
-                  <Link to={`/edit/${developer._id}`}>
-                    <FontAwesomeIcon icon={faEdit} />
-                  </Link>
+                  {developer.isblacklisted ? (
+                    <FontAwesomeIcon
+                      icon={faEdit}
+                      className="disabledEditActionButton"
+                    />
+                  ) : (
+                    <Link
+                      to={`/edit/${developer._id}`}
+                      className="editActionButton"
+                    >
+                      <FontAwesomeIcon icon={faEdit} />
+                    </Link>
+                  )}
                 </div>
                 <div
                   className="card-subtitle mb-2 text-primary"
@@ -59,13 +69,14 @@ class Card extends Component {
               <div className="cardFooter row">
                 <div className="archiveButton col-6">
                   <button
-                    className="actionButton"
+                    className="cardActionButton"
                     onClick={() =>
                       this.props.archiveDeveloper(
                         developer._id,
                         (developer.archive = this.state.archive)
                       )
                     }
+                    disabled={developer.isblacklisted}
                   >
                     Archive
                   </button>
@@ -73,8 +84,9 @@ class Card extends Component {
                 <div className="seperater col-1" />
                 <div className="blacklistButton col-5">
                   <button
-                    className="actionButton"
+                    className="cardActionButton"
                     onClick={() => this.showModal(developer._id)}
+                    disabled={developer.isblacklisted}
                   >
                     Blacklist
                   </button>

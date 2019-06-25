@@ -51,6 +51,13 @@ class EditDeveloper extends Component {
   componentDidMount() {
     this.props.getDeveloper(this.props.match.params.developerId);
   }
+
+  componentDidUpdate(prevProps) {
+    if (!prevProps.developer.developer && this.props.developer.developer) {
+      this.setState({ ...this.props.developer.developer });
+    }
+  }
+
   handleChange = e => {
     this.setState({
       [e.target.id]: e.target.value
@@ -64,45 +71,14 @@ class EditDeveloper extends Component {
   };
 
   handleSubmit = e => {
-    console.log(this.props);
     e.preventDefault();
-    const {
-      firstname,
-      lastname,
-      skills,
-      score,
-      experience,
-      category,
-      location,
-      availability,
-      costPerHour,
-      contract,
-      reference,
-      email,
-      phone,
-      github,
-      linkedin,
-      archive,
-      isBlacklist
-    } = this.state;
+    console.log("PROPS", this.props);
+    const { errors, ...rest } = this.state;
+
+    console.log("REST", rest);
+
     this.props.editDeveloper(this.props.match.params.developerId, {
-      firstname,
-      lastname,
-      skills,
-      score,
-      experience,
-      category,
-      location,
-      availability,
-      costPerHour,
-      contract,
-      reference,
-      email,
-      phone,
-      github,
-      linkedin,
-      archive,
-      isBlacklist
+      ...rest
     });
 
     this.props.history.push("/dashboard");
@@ -152,7 +128,7 @@ class EditDeveloper extends Component {
     } else if (firstname.length > 50) {
       errors.firstname = "First Name can contains atmost 50 charchters";
       errors.disabled = true;
-    } else if (lastname.length === 0) {
+    } else if (lastname.length === 0 || lastname.length === 0) {
       errors.lastname = "Last Name can not be empty.";
       errors.disabled = true;
     } else if (lastname.length > 20) {
@@ -164,7 +140,7 @@ class EditDeveloper extends Component {
     } else if (!reg.test(phone)) {
       errors.phone = " Phone number should contains numeric value only";
       errors.disabled = true;
-    } else if (phone.length < 10 && phone.length > 10) {
+    } else if (phone.length !== 10) {
       errors.phone = " Please enter a valid phone number.";
       errors.disabled = true;
     } else if (skills.length === 0) {
@@ -191,16 +167,14 @@ class EditDeveloper extends Component {
     } else if (linkedin.length < 1) {
       errors.linkedin = "Linkedin profile field can't be empty.";
       errors.disabled = true;
-    } else if (!regexpUrl.test(linkedin)) {
-      errors.linkedin = "Please provide a valid Linkedin profile URL.";
-      errors.disabled = true;
-    } else if (!regexpUrl.test(github)) {
+    } else if (!regexpUrl.test(github) && github.length === 0) {
       errors.github = "Please provide a valid Github profile URL.";
       errors.github = true;
-    } else if (github.length < 1) {
-      errors.github = "Github Profile can't be empty..";
+    } else if (!regexpUrl.test(linkedin) && linkedin.length === 0) {
+      errors.linkedin = "Please provide a valid Linkedin profile URL.";
       errors.disabled = true;
     }
+
     this.setState({ errors });
 
     return errors;
@@ -231,7 +205,7 @@ class EditDeveloper extends Component {
                           name="firstname"
                           className="form-control"
                           placeholder="Please enter firstname"
-                          value={
+                          defaultValue={
                             this.props.developer.developer
                               ? this.props.developer.developer.firstname
                               : ""
@@ -256,7 +230,7 @@ class EditDeveloper extends Component {
                           name="lastname"
                           className="form-control"
                           placeholder="Please enter Surname "
-                          value={
+                          defaultValue={
                             this.props.developer.developer
                               ? this.props.developer.developer.lastname
                               : ""
@@ -281,7 +255,7 @@ class EditDeveloper extends Component {
                       name="email"
                       className="form-control"
                       placeholder="Please enter Email *"
-                      value={
+                      defaultValue={
                         this.props.developer.developer
                           ? this.props.developer.developer.email
                           : ""
@@ -304,7 +278,7 @@ class EditDeveloper extends Component {
                       name="phone"
                       className="form-control"
                       placeholder="Please enter your phone number *"
-                      value={
+                      defaultValue={
                         this.props.developer.developer
                           ? this.props.developer.developer.phone
                           : ""
@@ -326,7 +300,7 @@ class EditDeveloper extends Component {
                       name="skills"
                       className="form-control"
                       placeholder="Please enter skills *"
-                      value={
+                      defaultValue={
                         this.props.developer.developer
                           ? this.props.developer.developer.skills
                           : ""
@@ -350,8 +324,7 @@ class EditDeveloper extends Component {
                           type="number"
                           name="score"
                           className="form-control"
-                          placeholder="Please enter score *"
-                          value={
+                          defaultValue={
                             this.props.developer.developer
                               ? this.props.developer.developer.score
                               : ""
@@ -373,8 +346,7 @@ class EditDeveloper extends Component {
                           type="number"
                           name="experience"
                           className="form-control"
-                          placeholder="Please enter experience *"
-                          value={
+                          defaultValue={
                             this.props.developer.developer
                               ? this.props.developer.developer.experience
                               : ""
@@ -397,8 +369,7 @@ class EditDeveloper extends Component {
                           type="number"
                           name="availability"
                           className="form-control"
-                          placeholder="Please enter score *"
-                          value={
+                          defaultValue={
                             this.props.developer.developer
                               ? this.props.developer.developer.availability
                               : ""
@@ -421,8 +392,7 @@ class EditDeveloper extends Component {
                           type="number"
                           name="costPerHour"
                           className="form-control"
-                          placeholder="Please enter score *"
-                          value={
+                          defaultValue={
                             this.props.developer.developer
                               ? this.props.developer.developer.costPerHour
                               : ""
@@ -453,9 +423,7 @@ class EditDeveloper extends Component {
                               name="category"
                               className="form-control"
                               checked={
-                                this.props.developer.developer
-                                  ? this.props.developer.developer.category
-                                  : ""
+                                this.props.developer.developer ? true : false
                               }
                               onChange={this.handleChecked}
                             />
@@ -475,9 +443,7 @@ class EditDeveloper extends Component {
                               name="category"
                               className="form-control"
                               checked={
-                                this.props.developer.developer
-                                  ? this.props.developer.developer.category
-                                  : ""
+                                this.props.developer.developer ? true : false
                               }
                               onChange={this.handleChecked}
                             />
@@ -496,9 +462,7 @@ class EditDeveloper extends Component {
                               name="category"
                               className="form-control"
                               checked={
-                                this.props.developer.developer
-                                  ? this.props.developer.developer.category
-                                  : ""
+                                this.props.developer.developer ? true : false
                               }
                               onChange={this.handleChecked}
                             />
@@ -518,9 +482,7 @@ class EditDeveloper extends Component {
                               name="category"
                               className="form-control"
                               checked={
-                                this.props.developer.developer
-                                  ? this.props.developer.developer.category
-                                  : ""
+                                this.props.developer.developer ? true : false
                               }
                               onChange={this.handleChecked}
                             />
@@ -547,7 +509,7 @@ class EditDeveloper extends Component {
                           name="location"
                           className="form-control"
                           placeholder="Please enter location *"
-                          value={
+                          defaultValue={
                             this.props.developer.developer
                               ? this.props.developer.developer.location
                               : ""
@@ -571,7 +533,7 @@ class EditDeveloper extends Component {
                           name="reference"
                           className="form-control"
                           placeholder="Please enter reference"
-                          value={
+                          defaultValue={
                             this.props.developer.developer
                               ? this.props.developer.developer.reference
                               : ""
@@ -601,9 +563,10 @@ class EditDeveloper extends Component {
                               name="contract"
                               className="form-control"
                               checked={
-                                this.props.developer.developer
-                                  ? this.props.developer.developer.contract
-                                  : ""
+                                this.props.developer.developer &&
+                                this.props.developer.developer.contract
+                                  ? true
+                                  : false
                               }
                               onChange={this.handleChecked}
                             />
@@ -622,9 +585,10 @@ class EditDeveloper extends Component {
                               name="contract"
                               className="form-control"
                               checked={
-                                this.props.developer.developer
-                                  ? this.props.developer.developer.contract
-                                  : ""
+                                this.props.developer.developer &&
+                                this.props.developer.developer.contract
+                                  ? true
+                                  : false
                               }
                               onChange={this.handleChecked}
                             />
@@ -647,7 +611,7 @@ class EditDeveloper extends Component {
                       name="github"
                       className="form-control"
                       placeholder="Please enter your github link *"
-                      value={
+                      defaultValue={
                         this.props.developer.developer
                           ? this.props.developer.developer.github
                           : ""
@@ -669,7 +633,7 @@ class EditDeveloper extends Component {
                       name="linkedin"
                       className="form-control"
                       placeholder="Please enter your LinkedIn link *"
-                      value={
+                      defaultValue={
                         this.props.developer.developer
                           ? this.props.developer.developer.linkedin
                           : ""

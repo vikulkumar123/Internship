@@ -1,76 +1,109 @@
-import React from "react";
+import React, { Component } from "react";
+import "../style/modal.css";
+import { Form, Label, Input } from "reactstrap";
+import { connect } from "react-redux";
 import {
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Input,
-  Form,
-  Label
-} from "reactstrap";
-
-class BlacklistModal extends React.Component {
+  blacklistDeveloper,
+  getDeveloper
+} from "../redux/actions/developerAction";
+import PropTypes from "prop-types";
+class BlacklistModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: false
+      reason: "",
+      note: "",
+      isblacklisted: true
     };
   }
 
+  componentDidMount() {
+    console.log(this.props.id);
+    this.props.getDeveloper(this.props.id);
+  }
+
+  handleChange = e => {
+    this.setState({
+      [e.target.id]: e.target.value
+    });
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+    this.props.blacklistDeveloper(this.props.id, this.state);
+    this.setState({
+      reason: "",
+      note: ""
+    });
+  };
+
   render() {
     return (
-      <div>
-        <Modal
-          isOpen={this.state.modal}
-          toggle={this.props.toggle}
-          className={this.props.className}
-        >
-          <ModalHeader>Blacklist Developer</ModalHeader>
-          <ModalBody>
-            <Form className="form" onSubmit={this.handleSubmit}>
-              <div className="row">
-                <div className="col-md-6 padding  offset-md-3">
-                  <div className="row">
-                    <div className="col-md-6 padding">
-                      <div className="form-group">
-                        <Label htmlFor="firstname" className="label">
-                          First Name *
-                        </Label>
-                        <Input
-                          id="firstname"
-                          type="text"
-                          name="firstname"
-                          className="form-control"
-                          placeholder="Please enter firstname"
-                          //   value={this.state.firstname}
-                          //   onChange={this.handleChange}
-                          //   onBlur={this.handleBlur}
-                        />
-                        <p className="text-danger">
-                          <ModalBody>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit, sed do eiusmod tempor incididunt ut labore et
-                            dolore magna aliqua. Ut enim ad minim veniam, quis
-                            nostrud exercitation ullamco laboris nisi ut aliquip
-                            ex ea commodo consequat. Duis aute irure dolor in
-                            reprehenderit in voluptate velit esse cillum dolore
-                            eu fugiat nulla pariatur. Excepteur sint occaecat
-                            cupidatat non proident, sunt in culpa qui officia
-                            deserunt mollit anim id est laborum.
-                          </ModalBody>
-                        </p>
-                      </div>
+      <div className="overlay">
+        <div className="overlay-backdrop" />
+        <div className="overlay-wrapper">
+          <div className="overlay-modal">
+            <div className="dialog-container">
+              <div className="news-dialog">
+                <div className="header">
+                  <h3>Blacklist Developer</h3>
+                  <button className="icon-button" onClick={this.props.toggle}>
+                    <span>X</span>
+                  </button>
+                </div>
+                <div className="dialog-content">
+                  <Form className="form" onSubmit={this.handleSubmit}>
+                    <div className="form-group">
+                      <Label htmlFor="reason" className="label">
+                        Reason *
+                      </Label>
+                      <Input
+                        id="reason"
+                        type="text"
+                        name="reason"
+                        className="form-control"
+                        placeholder="Please reason"
+                        value={this.state.reason}
+                        onChange={this.handleChange}
+                      />
                     </div>
-                  </div>
+                    <div className="form-group">
+                      <Label htmlFor="note" className="label">
+                        Notes
+                      </Label>
+                      <Input
+                        id="note"
+                        type="text"
+                        name="note"
+                        className="form-control"
+                        placeholder="Enter notes..."
+                        value={this.state.note}
+                        onChange={this.handleChange}
+                      />
+                    </div>
+                    <button className="button11">
+                      <span>Blacklist</span>
+                    </button>
+                  </Form>
                 </div>
               </div>
-            </Form>
-          </ModalBody>
-          <ModalFooter />
-        </Modal>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
 }
 
-export default BlacklistModal;
+BlacklistModal.propTypes = {
+  developer: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  developer: state.developer
+});
+
+export default connect(
+  mapStateToProps,
+  { blacklistDeveloper, getDeveloper }
+)(BlacklistModal);

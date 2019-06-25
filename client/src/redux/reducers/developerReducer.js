@@ -62,7 +62,7 @@ const developers = (state = initialState, action) => {
     case ActionTypes.BLACKLIST_DEVELOPER:
       return {
         ...state,
-        developer: { ...state.developer, blacklist: action.payload }
+        developer: action.payload
       };
 
     default:

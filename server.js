@@ -1,10 +1,15 @@
 var createError = require("http-errors");
 var express = require("express");
 var mongoose = require("mongoose");
+var path = require("path");
 var bodyParser = require("body-parser");
 var config = require("./config");
 var users = require("./routes/api/auth");
 var developerRouter = require("./routes/api/developersRouter");
+const multer = require("multer");
+const GridFsStorage = require("multer-gridfs-storage");
+const Grid = require("gridfs-stream");
+const methodOverride = require("method-override");
 
 const url = config.mongoUrl;
 const connect = mongoose.connect(url, { useNewUrlParser: true });
@@ -25,6 +30,7 @@ mongoose.set("useFindAndModify", false);
 // Body Parser Middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(methodOverride("_method"));
 
 // Passport middleware
 

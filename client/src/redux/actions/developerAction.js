@@ -81,9 +81,9 @@ export const archiveDeveloper = (id, archive) => (dispatch, getState) => {
     );
 };
 
-export const blacklistDeveloper = (id, blacklist) => (dispatch, getState) => {
+export const blacklistDeveloper = (id, data) => (dispatch, getState) => {
   axios
-    .put(`/api/developers/dashboard/${id}`, blacklist, tokenConfig(getState))
+    .put(`/api/developers/dashboard/${id}`, data, tokenConfig(getState))
     .then(res => {
       dispatch({
         type: ActionTypes.BLACKLIST_DEVELOPER,

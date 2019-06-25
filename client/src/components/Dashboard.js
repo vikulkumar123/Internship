@@ -30,20 +30,26 @@ class Dashboard extends Component {
       search: true
     });
     const developers = this.props.developers.filter(developer => {
+      console.log(developer);
       if (
         developer.firstname === this.state.searchInput ||
-        developer.category === this.state.searchInput
+        developer.category === this.state.searchInput ||
+        developer.skills === this.state.searchInput
       ) {
-        if (!developer.archive && !developer.isBlacklisted) {
-          return developer;
+        if (!developer.archive && !developer.isblacklisted) {
+          return true;
         }
       }
-      return null;
+      return false;
     });
 
-    this.setState({
-      developers
-    });
+    if (this.state.searchInput.trim() === "") {
+      this.setState({
+        developers: this.props.developers
+      });
+    } else {
+      this.setState({ developers });
+    }
   };
 
   handleChange = e => {

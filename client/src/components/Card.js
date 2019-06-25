@@ -4,10 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import {
-  archiveDeveloper,
-  blacklistDeveloper
-} from "../redux/actions/developerAction";
+import { archiveDeveloper } from "../redux/actions/developerAction";
 import BlacklistModal from "./BlacklistModal";
 
 class Card extends Component {
@@ -15,8 +12,9 @@ class Card extends Component {
     super(props);
     this.state = {
       archive: true,
-      isBlacklisted: true,
-      isModalOpen: false
+      isModalOpen: false,
+      id: null,
+      developerID: ""
     };
   }
 
@@ -26,9 +24,10 @@ class Card extends Component {
     });
   };
 
-  showModal = () => {
+  showModal = developerID => {
     this.setState({
-      isModalOpen: true
+      isModalOpen: true,
+      developerID
     });
   };
 
@@ -39,13 +38,6 @@ class Card extends Component {
           <div className="col-md-3 col-sm-6 mb-4" key={developer._id}>
             <div className="card">
               <div className="card-body">
-                <div className="card-image">
-                  <img
-                    src={require("../images/transparent.png")}
-                    alt="profile"
-                    className="profile_image"
-                  />
-                </div>
                 <div className="card-title mb-2">
                   <span className="mr-2">
                     {developer.firstname} {developer.lastname}
@@ -61,7 +53,7 @@ class Card extends Component {
                   <span>{developer.email}</span>
                 </div>
                 <div className="card-subtitle mb-2 text-muted">
-                  <span>{developer.phone}</span>
+                  <span>{developer.skills}</span>
                 </div>
               </div>
               <div className="cardFooter row">
@@ -80,11 +72,17 @@ class Card extends Component {
                 </div>
                 <div className="seperater col-1" />
                 <div className="blacklistButton col-5">
-                  <button className="actionButton" onClick={this.showModal}>
+                  <button
+                    className="actionButton"
+                    onClick={() => this.showModal(developer._id)}
+                  >
                     Blacklist
                   </button>
                   {this.state.isModalOpen ? (
-                    <BlacklistModal toggle={this.toggle} />
+                    <BlacklistModal
+                      toggle={this.toggle}
+                      id={this.state.developerID}
+                    />
                   ) : (
                     ""
                   )}
@@ -104,5 +102,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { archiveDeveloper, blacklistDeveloper }
+  { archiveDeveloper }
 )(Card);

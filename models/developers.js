@@ -69,13 +69,12 @@ const developerSchema = new Schema(
       type: Boolean,
       default: false
     },
-    blacklistReason: {
+    reason: {
       type: String,
-      possibleValues: ["reason 1", "reason 2", "reason 3", "reason 4"],
-      default: "reason1"
+      default: ""
     },
 
-    blacklistNotes: {
+    note: {
       type: String,
       default: "",
       maxlength: 100
@@ -84,6 +83,10 @@ const developerSchema = new Schema(
     archive: {
       type: Boolean,
       default: false
+    },
+    resume: {
+      type: String,
+      required: true
     }
   },
 

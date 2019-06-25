@@ -16,11 +16,11 @@ class ContactUs extends Component {
       skills: "",
       score: 0,
       experience: 0,
-      category: "Consultant",
+      category: "",
       location: "",
       availability: 0,
       costPerHour: 0,
-      contract: "Fixed",
+      contract: "",
       reference: "",
       email: "",
       phone: "",
@@ -204,14 +204,11 @@ class ContactUs extends Component {
     } else if (linkedin.length < 1) {
       errors.linkedin = "Linkedin profile field can't be empty.";
       errors.disabled = true;
-    } else if (!regexpUrl.test(linkedin)) {
-      errors.linkedin = "Please provide a valid Linkedin profile URL.";
-      errors.disabled = true;
-    } else if (!regexpUrl.test(github)) {
+    } else if (!regexpUrl.test(github) && github.length === 0) {
       errors.github = "Please provide a valid Github profile URL.";
       errors.github = true;
-    } else if (github.length < 1) {
-      errors.github = "Github Profile can't be empty..";
+    } else if (!regexpUrl.test(linkedin) && linkedin.length === 0) {
+      errors.linkedin = "Please provide a valid Linkedin profile URL.";
       errors.disabled = true;
     }
     this.setState({ errors });
@@ -226,7 +223,12 @@ class ContactUs extends Component {
         <section className="section">
           <div className="container">
             <h3>Create Developer Profile</h3>
-            <Form className="form" onSubmit={this.handleSubmit}>
+            <Form
+              action="/upload"
+              className="form"
+              onSubmit={this.handleSubmit}
+              encType="multipart/form-data"
+            >
               <div className="row">
                 <div className="col-md-6 padding  offset-md-3">
                   <div className="row">
@@ -339,7 +341,6 @@ class ContactUs extends Component {
                           type="number"
                           name="score"
                           className="form-control"
-                          placeholder="Please enter score *"
                           value={this.state.score}
                           onChange={this.handleChange}
                           onBlur={this.handleBlur}
@@ -358,7 +359,6 @@ class ContactUs extends Component {
                           type="number"
                           name="experience"
                           className="form-control"
-                          placeholder="Please enter experience *"
                           value={this.state.experience}
                           onChange={this.handleChange}
                           onBlur={this.handleBlur}
@@ -378,7 +378,6 @@ class ContactUs extends Component {
                           type="number"
                           name="availability"
                           className="form-control"
-                          placeholder="Please enter availability *"
                           value={this.state.availability}
                           onChange={this.handleChange}
                           onBlur={this.handleBlur}
@@ -398,7 +397,6 @@ class ContactUs extends Component {
                           type="number"
                           name="costPerHour"
                           className="form-control"
-                          placeholder="Please enter score *"
                           value={this.state.costPerHour}
                           onChange={this.handleChange}
                           onBlur={this.handleBlur}
@@ -581,23 +579,6 @@ class ContactUs extends Component {
                   {/* Upload Image */}
                   <div className="form-group label-floating">
                     <div className="row">
-                      <div className="col-md-6 padding">
-                        <label htmlFor="image" className="label">
-                          Upload Image *
-                        </label>
-                        <div className="form-group">
-                          <Input
-                            type="file"
-                            name="image"
-                            id="image"
-                            className="form-control"
-                            // onChange={this.handleChange}
-                          />
-                          <p className="text-danger">
-                            {/* {this.state.errors.image} */}
-                          </p>
-                        </div>
-                      </div>
                       {/* Upload Resume */}
                       <div className="col-md-6 padding">
                         <label htmlFor="resume" className="label">

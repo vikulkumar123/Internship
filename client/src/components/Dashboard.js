@@ -30,11 +30,15 @@ class Dashboard extends Component {
       search: true
     });
     const developers = this.props.developers.filter(developer => {
-      console.log(developer);
       if (
         developer.firstname === this.state.searchInput ||
+        developer.lastname === this.state.searchInput ||
+        developer.firstname + " " + developer.lastname ===
+          this.state.searchInput ||
         developer.category === this.state.searchInput ||
-        developer.skills === this.state.searchInput
+        developer.skills.filter(skill => {
+          return skill.label === this.state.searchInput;
+        })
       ) {
         if (!developer.archive && !developer.isblacklisted) {
           return true;

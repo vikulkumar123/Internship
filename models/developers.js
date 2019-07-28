@@ -11,10 +11,7 @@ const developerSchema = new Schema(
       type: String,
       required: true
     },
-    skills: {
-      type: String,
-      default: ""
-    },
+    skills: [],
     score: {
       type: Number,
       required: true
@@ -85,8 +82,7 @@ const developerSchema = new Schema(
       default: false
     },
     resume: {
-      type: String,
-      required: false
+      type: Buffer
     }
   },
 

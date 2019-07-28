@@ -32,10 +32,14 @@ export const getDeveloper = id => (dispatch, getState) => {
       dispatch(returnErrors(err.response.data, err.response.status))
     );
 };
-
+const config = {
+  headers: {
+    "content-type": "multipart/form-data"
+  }
+};
 export const createDeveloper = developer => (dispatch, getState) => {
   axios
-    .post("/api/developers/register", developer, tokenConfig(getState))
+    .post("/api/developers/register", developer, config, tokenConfig(getState))
     .then(res => {
       console.log(res.data);
       dispatch({
@@ -69,9 +73,10 @@ export const developerLoading = () => {
   };
 };
 
-export const archiveDeveloper = (id, archive) => (dispatch, getState) => {
+export const archiveDeveloper = (id, data) => (dispatch, getState) => {
+  console.log("Dispatch archive", data);
   axios
-    .put(`/api/developers/dashboard/${id}`, archive, tokenConfig(getState))
+    .put(`/api/developers/dashboard/${id}`, data, tokenConfig(getState))
     .then(res => {
       dispatch({
         type: ActionTypes.ARCHIVE_DEVELOPER,
@@ -84,11 +89,11 @@ export const archiveDeveloper = (id, archive) => (dispatch, getState) => {
 };
 
 export const blacklistDeveloper = (id, data) => (dispatch, getState) => {
-  // console.log("Dispatch blacklist", data);
+  console.log("Dispatch blacklist", data);
   axios
     .put(`/api/developers/dashboard/${id}`, data, tokenConfig(getState))
     .then(res => {
-      // console.log("blacklist", res.data);
+      console.log("blacklist", res.data);
       dispatch({
         type: ActionTypes.BLACKLIST_DEVELOPER,
         payload: res.data

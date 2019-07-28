@@ -31,6 +31,12 @@ class Card extends Component {
     });
   };
 
+  toggleArchive = () => {
+    this.setState({
+      archive: !this.state.archive
+    });
+  };
+
   render() {
     return (
       <div className="row">
@@ -60,10 +66,14 @@ class Card extends Component {
                   className="card-subtitle mb-2 text-primary"
                   style={{ fontSize: "14px" }}
                 >
-                  <span>{developer.email}</span>
+                  <span>{developer.category}</span>
                 </div>
                 <div className="card-subtitle mb-2 text-muted">
-                  <span>{developer.skills}</span>
+                  <span>
+                    {developer.skills.map(skill => {
+                      return skill.label + ",  ";
+                    })}
+                  </span>
                 </div>
               </div>
               <div className="cardFooter row">
@@ -71,10 +81,9 @@ class Card extends Component {
                   <button
                     className="cardActionButton"
                     onClick={() =>
-                      this.props.archiveDeveloper(
-                        developer._id,
-                        (developer.archive = this.state.archive)
-                      )
+                      this.props.archiveDeveloper(developer._id, {
+                        archive: this.state.archive
+                      })
                     }
                     disabled={developer.isblacklisted}
                   >

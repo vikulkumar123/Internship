@@ -13,7 +13,8 @@ class EditDeveloper extends Component {
     this.state = {
       firstname: "",
       lastname: "",
-      skills: "",
+      skills: [],
+      selectSkill: null,
       score: 0,
       experience: 0,
       category: "Consultant",
@@ -32,7 +33,6 @@ class EditDeveloper extends Component {
       errors: {
         firstname: "",
         lastname: "",
-        skills: "",
         score: "",
         experience: "",
         location: "",
@@ -69,10 +69,14 @@ class EditDeveloper extends Component {
       category: e.target.value
     });
   };
+  handleSelect = selectSkill => {
+    this.setState({ selectSkill });
+  };
 
   handleSubmit = e => {
     e.preventDefault();
     console.log("PROPS", this.props);
+    this.state.skills.push(this.state.selectSkill);
     const { errors, ...rest } = this.state;
 
     console.log("REST", rest);
@@ -92,7 +96,6 @@ class EditDeveloper extends Component {
   validation = ({
     firstname,
     lastname,
-    skills,
     score,
     experience,
     location,
@@ -107,7 +110,6 @@ class EditDeveloper extends Component {
     const errors = {
       firstname: "",
       lastname: "",
-      skills: "",
       score: "",
       experience: "",
       location: "",
@@ -142,9 +144,6 @@ class EditDeveloper extends Component {
       errors.disabled = true;
     } else if (phone.length !== 10) {
       errors.phone = " Please enter a valid phone number.";
-      errors.disabled = true;
-    } else if (skills.length === 0) {
-      errors.skills = "Please enter atleast one skill";
       errors.disabled = true;
     } else if (score < 1) {
       errors.score = "Please enter a valid score";
@@ -302,10 +301,12 @@ class EditDeveloper extends Component {
                       placeholder="Please enter skills *"
                       defaultValue={
                         this.props.developer.developer
-                          ? this.props.developer.developer.skills
+                          ? this.props.developer.developer.skills.map(skill => {
+                              return skill.label;
+                            })
                           : ""
                       }
-                      onChange={this.handleChange}
+                      onChange={this.handleSelect}
                       onBlur={this.handleBlur}
                     />
                     <p className="text-danger">{this.state.errors.skills}</p>

@@ -16,14 +16,17 @@ class Login extends Component {
   };
 
   componentDidMount() {
-    console.log(this.props.isAuthenticated);
+    console.log("Authenticate", this.props.isAuthenticated);
     if (this.props.isAuthenticated) {
+      console.log("Auth" + this.props.isAuthenticated);
       this.props.history.push("/dashboard");
     }
   }
 
   componentDidUpdate(prevProps) {
     const { error } = this.props;
+    console.log(this.props);
+    if (this.props.isAuthenticated) this.props.history.push("/dashboard");
     if (error !== prevProps.error) {
       //check the register error
 
@@ -58,6 +61,7 @@ class Login extends Component {
 
     // attemt to login
     this.props.login(user);
+    console.log(this.props);
     this.props.history.push("/dashboard");
   };
   render() {

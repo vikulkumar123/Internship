@@ -57,7 +57,7 @@ const developers = (state = initialState, action) => {
     case ActionTypes.ARCHIVE_DEVELOPER:
       return {
         ...state,
-        developer: { ...state.developer, archive: action.payload }
+        developer: action.payload
       };
 
     case ActionTypes.BLACKLIST_DEVELOPER:

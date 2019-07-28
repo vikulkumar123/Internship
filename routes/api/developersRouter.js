@@ -2,39 +2,44 @@ const express = require("express");
 const bodyPerser = require("body-parser");
 const Developers = require("../../models/developers");
 const auth = require("../../middleware/auth");
+const mongoose = require("mongoose");
 const developerRouter = express.Router();
 developerRouter.use(bodyPerser.json());
 const multer = require("multer");
 
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "/public/images");
+  destination: function(req, file, cb) {
+    cb(null, "./upload/");
   },
-  filename: (req, file, cb) => {
-    cb(null, file.originalname + "-" + Date.now());
+  filename: function(req, file, cb) {
+    cb(null, new Date().toISOString() + file.originalname);
   }
 });
 
 const fileFilter = (req, file, cb) => {
-  if (!file.originalname.match(/\.(pdf)$/)) {
-    cb(new Error("You can upload only pdf!"), false);
+  if (!file.originalname.endsWith(".pdf")) {
+    return cb(new Error("Please upload a pdf!"));
   }
-  cb(null, true);
+
+  cb(undefined, true);
 };
 
-const upload = multer({ storage: storage, fileFilter: fileFilter });
+const upload = multer({
+  storage,
+  limits: {
+    fieldSize: 1024 * 1024 * 5
+  },
+  fileFilter
+});
 
 developerRouter
   .route("/")
   .get(auth, (req, res, next) => {
-    console.log(req.query);
     req.query.isblacklisted = false;
     req.query.archive = false;
     Developers.find({})
       .then(
         developers => {
-          res.statusCode = 200;
-          res.setHeader("Content-Type", "application/json");
           res.json(developers);
         },
         err => {
@@ -58,12 +63,47 @@ developerRouter
     res.end("DELETE operation not supported on / route");
   });
 
-developerRouter.post("/register", auth, (req, res, next) => {
-  Developers.create(req.body)
+developerRouter.post("/register", upload.single("resume"), (req, res, next) => {
+  const skillsReplaced = req.body.skills.replace(/},/g, "@");
+  const skillsSplit = skillsReplaced.split("@");
+  const skills = skillsSplit.map((skill, index) => {
+    if (index !== skillsSplit.length - 1) {
+      return JSON.parse(`${skill}}`);
+    } else {
+      return JSON.parse(skill);
+    }
+  });
+
+  console.log("asdasd", skills);
+  const developer = new Developers({
+    _id: new mongoose.Types.ObjectId(),
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
+    skills,
+    score: req.body.score,
+    experience: req.body.experience,
+    category: req.body.category,
+    location: req.body.location,
+    availability: req.body.availability,
+    costPerHour: req.body.costPerHour,
+    contract: req.body.contract,
+    reference: req.body.reference,
+    email: req.body.email,
+    phone: req.body.phone,
+    linkedin: req.body.linkedin,
+    github: req.body.github,
+    isblacklisted: req.body.isblacklisted,
+    reason: req.body.reason,
+    note: req.body.note,
+    archive: req.body.archive,
+    resume: req.file.path
+  });
+  developer
+    .save()
     .then(
       developer => {
         res.statusCode = 200;
-        res.setHeader("Content-Type", "application/json");
+        res.setHeader("Content-Type", "multipart/form-data");
         res.json(developer);
       },
       err => {
@@ -145,6 +185,7 @@ developerRouter
   });
 
 developerRouter.route("/dashboard/:developerId").put(auth, (req, res, next) => {
+  console.log("Router", req.body);
   Developers.findByIdAndUpdate(
     req.params.developerId,
     {
